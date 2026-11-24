@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonne Apps</title>
+<style>
+:root{color-scheme:light dark;
+ --bg:light-dark(#fffaf0,#10172a);--ink:light-dark(#1c2742,#f3efe4);--muted:light-dark(#5b6378,#a9b0c2);
+ --sun:#f2a900;--sunl:light-dark(#ffe9a8,#3a3216);--navy:#1c2742;--coral:#e8553d;
+ --card:light-dark(#ffffff,#18213a);--line:light-dark(#efe4c8,#2a3452)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Segoe UI","Noto Sans Arabic","Geeza Pro",Tahoma,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Segoe UI","Noto Sans Arabic","Geeza Pro",Tahoma,sans-serif;font-weight:700;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,5vw,52px)}h2{font-size:clamp(24px,3.2vw,34px);margin-bottom:10px}h3{font-size:19px}
+a{color:inherit}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+nav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px max(5vw,16px);background:var(--sun);color:var(--navy)}
+nav b{font-family:system-ui;font-size:22px;display:flex;align-items:center;gap:8px}
+nav .links{display:flex;gap:18px;flex-wrap:wrap}nav .links a{text-decoration:none;font-weight:600}
+.lang{background:var(--navy);color:#fff;border:0;border-radius:99px;padding:10px 16px;font:600 15px inherit;font-family:inherit;cursor:pointer;min-height:44px}
+.hero{background:var(--sun);color:var(--navy);padding-top:8px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:32px;align-items:center}
+.hero p{font-size:18px;max-width:34em;margin:16px 0 24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:12px;border:0;font:600 16px inherit;font-family:inherit;cursor:pointer;text-decoration:none}
+.btn.dark{background:var(--navy);color:#fff}.btn.light{background:#fff;color:var(--navy)}.btn.coral{background:var(--coral);color:#fff}
+.btn:focus-visible,.chip:focus-visible,.lang:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.hero .btns{display:flex;gap:10px;flex-wrap:wrap}
+.fig{position:relative;min-height:340px}.fig svg{position:absolute;inset:0;width:100%;height:100%}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 24px}
+.chip{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:0 16px;min-height:44px;font:600 15px inherit;font-family:inherit;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.card .ico{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;color:#fff;font:700 22px system-ui}
+.card .tag{font-size:13px;color:var(--muted)}
+.card ul{margin:0;padding-inline-start:18px;color:var(--muted);font-size:15px}
+.card .row{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-top:8px}
+.price{font:700 20px system-ui;white-space:nowrap}.price small{font:500 13px system-ui;color:var(--muted)}
+.soon{font-size:13px;background:var(--sunl);color:var(--ink);padding:4px 10px;border-radius:99px}
+.bundle{background:var(--navy);color:#f3efe4}
+.bundle .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.bundle .big{font:700 clamp(40px,6vw,64px) system-ui;color:var(--sun);white-space:nowrap}
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
+.svc div{border-top:4px solid var(--sun);padding-top:12px}
+details{border-bottom:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:600;min-height:28px}
+footer{background:#141b30;color:#c9cede;font-size:15px}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+footer h3{color:#fff;font-size:17px;margin-bottom:8px}
+.legal{display:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:18px}
+.legal:target{display:block}
+.note{font-size:13px;color:var(--muted)}
+dialog{border:0;border-radius:18px;padding:24px;max-width:420px;background:var(--card);color:var(--ink)}
+dialog::backdrop{background:#0008}
+@media(max-width:820px){.hero .wrap,.bundle .wrap{grid-template-columns:1fr}.fig{min-height:260px}}
+@media(prefers-reduced-motion:no-preference){#sunray{animation:spin 60s linear infinite;transform-origin:420px 200px}@keyframes spin{to{transform:rotate(360deg)}}}
+</style>
+</head>
+<body>
+<nav>
+  <b><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="7" fill="#1c2742"/><g stroke="#1c2742" stroke-width="2.4" stroke-linecap="round"><path d="M14 1v4M14 23v4M1 14h4M23 14h4M5 5l2.8 2.8M20.2 20.2 23 23M5 23l2.8-2.8M20.2 7.8 23 5"/></g></svg>Sonne Apps</b>
+  <div class="links"><a href="#apps" data-t="nApps">التطبيقات</a><a href="#bundle" data-t="nBundle">الباقة</a><a href="#services" data-t="nSvc">نبني لك تطبيقك</a><a href="#faq" data-t="nFaq">أسئلة</a></div>
+  <button class="lang" id="lang" type="button">Deutsch</button>
+</nav>
+
+<header class="hero band">
+  <div class="wrap">
+    <div>
+      <h1 data-t="hTitle">تطبيقات ذكية للعمل والحياة، بالعربي والألماني</h1>
+      <p data-t="hSub">محاسبة لمحلّك، وأدوات للتجار، وتطبيقات لتطوير الذات وللعائلة. كلها في متجر واحد، بدفع آمن، وبعضها مجاني.</p>
+      <div class="btns"><a class="btn dark" href="#apps" data-t="hCta">تصفّح التطبيقات</a><a class="btn light" href="#services" data-t="hCta2">اطلب تطبيقاً خاصاً</a></div>
+    </div>
+    <div class="fig" aria-hidden="true">
+      <svg viewBox="0 0 600 380" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="g" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff6d6"/><stop offset="1" stop-color="#ffd25e"/></radialGradient>
+          <linearGradient id="wood" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#b8743a"/><stop offset="1" stop-color="#8a5226"/></linearGradient>
+          <g id="box"><rect width="92" height="92" rx="22"/><rect width="92" height="14" rx="7" y="78" fill="#0002"/><rect x="8" y="6" width="76" height="6" rx="3" fill="#fff5"/></g>
+        </defs>
+        <g id="sunray" stroke="#fff3" stroke-width="18" stroke-linecap="round">
+          <path d="M420 20v40M420 340v40M240 200h40M560 200h40M293 73l28 28M519 299l28 28M293 327l28-28M519 101l28-28"/>
+        </g>
+        <circle cx="420" cy="200" r="120" fill="url(#g)"/>
+        <rect x="20" y="300" width="560" height="26" rx="6" fill="url(#wood)"/>
+        <rect x="20" y="300" width="560" height="5" rx="2" fill="#d9a066"/>
+        <rect x="40" y="326" width="18" height="40" fill="#7a4720"/><rect x="542" y="326" width="18" height="40" fill="#7a4720"/>
+        <use href="#box" x="50" y="208" fill="#1c2742"/><text x="96" y="266" text-anchor="middle" fill="#f2a900" font-size="40" font-family="system-ui" font-weight="700">€</text>
+        <use href="#box" x="160" y="208" fill="#e8553d"/><text x="206" y="266" text-anchor="middle" fill="#fff" font-size="36" font-family="system-ui" font-weight="700">♥</text>
+        <use href="#box" x="270" y="208" fill="#2f8f6b"/><text x="316" y="266" text-anchor="middle" fill="#fff" font-size="34" font-family="system-ui" font-weight="700">ع</text>
+        <use href="#box" x="380" y="208" fill="#3c5bd6"/><text x="426" y="266" text-anchor="middle" fill="#fff" font-size="34" font-family="system-ui" font-weight="700">♞</text>
+        <use href="#box" x="490" y="208" fill="#1c2742"/><text x="536" y="266" text-anchor="middle" fill="#fff" font-size="30" font-family="system-ui" font-weight="700">▶</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="band" id="apps"><div class="wrap">
+  <h2 data-t="aTitle">التطبيقات</h2>
+  <div class="chips" id="chips" role="group"></div>
+  <div class="grid" id="grid"></div>
+  <p class="note" data-t="aNote">الأسعار كما في صفحة الدفع عند Polar. السعر النهائي مع الضريبة يظهر قبل الدفع.</p>
+</div></section>
+
+<section class="bundle band" id="bundle"><div class="wrap">
+  <div>
+    <h2 data-t="bTitle">باقة تطوير الذات</h2>
+    <p data-t="bSub">المستشار وفن الحرب للأعمال وميزانيتي الذكية ودفتر الأهداف، كلها معاً باشتراك واحد بسعر أقل.</p>
+    <button class="btn coral buy" type="button" data-app="باقة تطوير الذات">أخبرني عند الإطلاق</button>
+  </div>
+  <div><div class="big" data-t="bSoon">قريباً</div></div>
+</div></section>
+
+<section class="band" id="services"><div class="wrap">
+  <h2 data-t="sTitle">نبني لك تطبيقك</h2>
+  <p data-t="sSub">لمحلّك أو شركتك: برامج ولاء ونقاط، ومخزون، ومحاسبة، ودعم تقني عن بُعد. في ألمانيا والخليج.</p>
+  <div class="svc">
+    <div><h3 data-t="s1">تطبيق ولاء ونقاط</h3><p data-t="s1d">نقاط، أكواد دعوة، ومتجر مكافآت باسم محلّك وألوانه.</p></div>
+    <div><h3 data-t="s2">مخزون ومبيعات</h3><p data-t="s2d">تنبيه عند نقص البضاعة، وتقرير الربح اليومي.</p></div>
+    <div><h3 data-t="s3">موقع أو نظام خاص</h3><p data-t="s3d">مواقع للعيادات والمكاتب والمطاعم، بالعربي والألماني والإنجليزي.</p></div>
+  </div>
+  <p style="margin-top:20px"><a class="btn dark" href="https://wa.me/4917631467103">واتساب: 0176 31467103</a></p>
+</div></section>
+
+<section class="band" id="faq"><div class="wrap">
+  <h2 data-t="fTitle">أسئلة شائعة</h2>
+  <details><summary>كيف أدفع؟</summary><p>الدفع عبر Polar ببطاقة أو PayPal أو Apple Pay. تصلك الفاتورة ومفتاح التفعيل على بريدك فوراً.</p></details>
+  <details><summary>من يبيعني التطبيق؟</summary><p>الدفع والفاتورة عن طريق Polar Software Inc.، وهي البائع الرسمي (Merchant of Record) وتحسب الضريبة حسب بلدك.</p></details>
+  <details><summary>هل أستطيع التجربة قبل الدفع؟</summary><p>بنك الحب وترجمان لهما نسخة مجانية. وللتطبيقات الأخرى اسألنا على واتساب عن نسخة تجريبية.</p></details>
+  <details><summary>هل أستطيع إلغاء الاشتراك؟</summary><p>نعم، في أي وقت من صفحة حسابك في Polar (Customer Portal). يبقى الاشتراك فعّالاً حتى نهاية المدة المدفوعة.</p></details>
+  <details><summary>هل Sonne Buchhaltung يغني عن المستشار الضريبي؟</summary><p>لا. البرنامج يرتّب قيودك وفواتيرك ويسهّل عمل مستشارك، لكن الإقرارات الضريبية تبقى مسؤوليتك أو مسؤولية مستشارك.</p></details>
+  <details><summary>أين تُحفظ بياناتي؟</summary><p>تفاصيل ذلك في سياسة الخصوصية لكل تطبيق، أسفل الصفحة.</p></details>
+</div></section>
+</main>
+
+<footer class="band"><div class="wrap">
+  <div class="cols">
+    <div><h3>Sonne Apps</h3><p>تطبيقات من تطوير ربيع المهتار، برلين.</p></div>
+    <div><h3>تواصل</h3><p>rabihalmehtar33@gmail.com<br>0176 31467103</p></div>
+    <div><h3>قانوني</h3><p><a href="#impressum">Impressum</a> · <a href="#datenschutz">Datenschutz</a> · <a href="#agb">AGB</a> · <a href="#widerruf">Widerruf</a></p></div>
+  </div>
+  <div class="legal" id="impressum" style="color:var(--ink)"><h3>Impressum</h3><p>Angaben gemäß § 5 DDG<br>Rabie Al Mehtar – Sonne Apps<br>Gernotstraße 32, 10365 Berlin<br>Telefon: 0176 31467103<br>E-Mail: rabihalmehtar33@gmail.com<br>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: DE369691405</p></div>
+  <div class="legal" id="datenschutz" style="color:var(--ink)"><h3>Datenschutzerklärung</h3>
+   <p><b>1. Verantwortlicher</b><br>Rabie Al Mehtar – Sonne Apps, Gernotstraße 32, 10365 Berlin, rabihalmehtar33@gmail.com.</p>
+   <p><b>2. Besuch der Website</b><br>Beim Aufruf verarbeitet der Hosting-Anbieter technisch notwendige Daten (IP-Adresse, Datum, Uhrzeit, Browser) zur Auslieferung und Sicherheit der Seite (Art. 6 Abs. 1 lit. f DSGVO). Es werden keine externen Schriftarten oder Inhalte Dritter geladen. Wir setzen keine Tracking- oder Werbe-Cookies ein.</p>
+   <p><b>3. Kauf</b><br>Käufe werden über Polar Software, Inc. als Wiederverkäufer (Merchant of Record) abgewickelt. Polar verarbeitet Name, E-Mail, Land und Zahlungsdaten zur Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) nach eigener Datenschutzerklärung (polar.sh/legal/privacy). Wir erhalten Name, E-Mail und Bestelldaten, um Lizenzen bereitzustellen und Support zu leisten.</p>
+   <p><b>4. Kontakt per WhatsApp oder E-Mail</b><br>Wenn Sie uns schreiben, verarbeiten wir Ihre Angaben zur Beantwortung (Art. 6 Abs. 1 lit. b bzw. f DSGVO). WhatsApp wird von WhatsApp Ireland Ltd. (Meta) betrieben.</p>
+   <p><b>5. Speicherdauer</b><br>Wir löschen Daten, sobald sie nicht mehr benötigt werden; Rechnungsdaten bewahren wir nach den gesetzlichen Fristen (bis zu 10 Jahre, § 147 AO) auf.</p>
+   <p><b>6. Ihre Rechte</b><br>Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerspruch (Art. 15–21 DSGVO). Beschwerden: Berliner Beauftragte für Datenschutz und Informationsfreiheit.</p>
+   <p>Für jede App gilt zusätzlich die Datenschutzerklärung in der App.</p></div>
+  <div class="legal" id="agb" style="color:var(--ink)"><h3>Allgemeine Geschäfts- und Nutzungsbedingungen</h3>
+   <p><b>1. Geltung</b><br>Diese Bedingungen regeln die Nutzung der Apps von Sonne Apps, Inhaber Rabie Al Mehtar. Der Kauf erfolgt über Polar Software, Inc. als Wiederverkäufer; für Kaufvertrag, Zahlung und Rechnung gelten zusätzlich die Bedingungen von Polar.</p>
+   <p><b>2. Leistung</b><br>Sie erhalten ein einfaches, nicht übertragbares Recht, die gekaufte App im beschriebenen Umfang zu nutzen (Lizenz Sonne Buchhaltung: ein Gerät). Funktionsumfang laut Produktbeschreibung zum Kaufzeitpunkt.</p>
+   <p><b>3. Abonnements</b><br>Monatsabos verlängern sich jeweils um einen Monat und sind jederzeit zum Ende des laufenden Monats kündbar, z. B. über das Kundenportal von Polar.</p>
+   <p><b>4. Hinweis Sonne Buchhaltung</b><br>Die Software ist ein Hilfsmittel und ersetzt keine Steuerberatung. Für die Richtigkeit von Buchungen und Steuererklärungen bleibt der Nutzer verantwortlich.</p>
+   <p><b>5. Haftung</b><br>Wir haften unbeschränkt bei Vorsatz, grober Fahrlässigkeit und bei Verletzung von Leben, Körper oder Gesundheit. Bei leichter Fahrlässigkeit haften wir nur bei Verletzung wesentlicher Vertragspflichten, begrenzt auf den vorhersehbaren, typischen Schaden. Die Haftung nach dem Produkthaftungsgesetz bleibt unberührt.</p>
+   <p><b>6. Recht</b><br>Es gilt deutsches Recht; zwingende Verbraucherschutzvorschriften Ihres Wohnsitzlandes bleiben unberührt. Wir nehmen nicht an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teil.</p></div>
+  <div class="legal" id="widerruf" style="color:var(--ink)"><h3>Widerrufsrecht</h3>
+   <p>Verbraucher haben beim Kauf digitaler Inhalte und Dienste grundsätzlich ein Widerrufsrecht von 14 Tagen. Da der Kauf über Polar Software, Inc. als Verkäufer abgewickelt wird, gelten die Widerrufsbelehrung und das Muster-Widerrufsformular von Polar, die Ihnen im Bestellvorgang angezeigt werden.</p>
+   <p>Bei digitalen Inhalten kann das Widerrufsrecht vorzeitig erlöschen, wenn Sie ausdrücklich zustimmen, dass die Ausführung vor Ablauf der Frist beginnt, und Ihre Kenntnis davon bestätigen (§ 356 Abs. 5 BGB).</p>
+   <p>Fragen zum Widerruf: rabihalmehtar33@gmail.com.</p></div>
+  <p class="note" style="color:#9aa2b8;margin-top:20px">© 2026 Sonne Apps</p>
+</div></footer>
+
+<dialog id="dlg"><h3 id="dlgT"></h3><p id="dlgP">صفحة الدفع عبر Polar تُفتح قريباً. اترك رقمك على واتساب لنخبرك يوم الإطلاق.</p>
+<p><a class="btn dark" href="https://wa.me/4917631467103">واتساب</a> <button class="btn light" id="close" type="button" style="border:1px solid var(--line)">إغلاق</button></p></dialog>
+
+<script>
+{
+const cats=[["all","الكل","Alle"],["biz","أدوات الأعمال","Business"],["self","تطوير الذات","Persönlichkeit"],["life","العائلة والحياة","Familie & Alltag"]];
+const apps=[
+ {n:"Sonne Buchhaltung",c:"biz",i:"€",col:"#1c2742",d:"محاسبة لمحلّك بالقيد المزدوج على SKR03/SKR04.",f:["صوّر فاتورة الشراء فتُسجَّل","تقرير ضريبة المبيعات","عربي وألماني"],p:"117,81 €",u:"ترخيص لجهاز واحد",s:0,l:"https://buy.polar.sh/polar_cl_HuHca84VCKWOuaP23vUcxU1o6bxjaQhA6vOP22p2mgO"},
+ {n:"المستشار",c:"self",i:"♛",col:"#7a3fb0",d:"نصائح استراتيجية مستوحاة من كتاب الأمير لمكيافيلي.",f:["موقف يومي ونصيحة","مكتبة مبادئ","إلغاء في أي وقت"],p:"8,99 €",u:"شهرياً",s:0,l:"https://buy.polar.sh/polar_cl_hfSVdRy5md9RCgwP4C7UKl5JC6i5xnm3SsLHA3A5yz6"},
+ {n:"دفتر الأهداف",c:"self",i:"◎",col:"#c27a00",d:"حدّد هدفك، اكتب خطتك، وتابع تقدّمك كل يوم.",f:["هدف واضح وموعد","تذكير يومي","سجلّ التقدّم"],p:"4,99 €",u:"شهرياً",s:0,l:"https://buy.polar.sh/polar_cl_LSdNPmteOAcDJHqUw34SCIHLPk1fXQXqts0Qx3pBS6B"},
+ {n:"ميزانيتي الذكية",c:"self",i:"%",col:"#2f8f6b",d:"اعرف أين يذهب مالك، وابنِ أصولاً بدل المصاريف.",f:["دخل ومصاريف","أصول وخصوم","هدف ادخار"],p:"",u:"",s:1},
+ {n:"فن الحرب للأعمال",c:"self",i:"♞",col:"#3c5bd6",d:"مبادئ صن تزو مطبّقة على المنافسة والتجارة.",f:["خطة لكل منافس","تمارين قصيرة","مكتبة مبادئ"],p:"",u:"",s:1},
+ {n:"AI Business Manager",c:"biz",i:"AI",col:"#2f8f6b",d:"مخزون ومبيعات وأرباح لمحلّك، مع تنبيه نقص البضاعة.",f:["اقتراح منتجات","تقرير الربح","لوحة يومية"],p:"14,90 €",u:"شهرياً",s:1},
+ {n:"ولاء ونقاط لمحلّك",c:"biz",i:"★",col:"#e8553d",d:"تطبيق ولاء باسم محلّك: نقاط، أكواد دعوة، مكافآت.",f:["تصميم بألوانك","لوحة تحكم","دعم عن بُعد"],p:"حسب الطلب",u:"عرض سعر",s:0,w:1},
+ {n:"ترجمان",c:"life",i:"ع",col:"#0f7c8c",d:"ترجمة فورية عربي–ألماني للنص والصوت والصور.",f:["رسائل الدوائر الرسمية","محادثة صوتية","ملفات"],p:"مجاني",u:"+ Pro 2,99 € شهرياً",s:1},
+ {n:"بنك الحب",c:"life",i:"♥",col:"#d6457a",d:"نقاط محبّة بين أفراد العائلة والأصدقاء.",f:["مكافآت عائلية","تحديات أسبوعية","آمن للأطفال"],p:"مجاني",u:"",s:0},
+ {n:"Sonne Player",c:"life",i:"▶",col:"#1c2742",d:"مشغّل قوائم تلفزيون: تضيف قائمتك وتشاهد بسهولة.",f:["دليل البرامج","قفل الأطفال","مؤقت النوم"],p:"2,99 €",u:"شهرياً · Pro",s:0,l:"https://buy.polar.sh/polar_cl_g3BWHbTXdaahYoj7S49hPuCqcf1j8ON4u7lxF27a9iD"}
+];
+let lang="ar",cur="all";
+const esc=t=>String(t).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const chips=document.getElementById("chips"),grid=document.getElementById("grid");
+function drawChips(){chips.innerHTML=cats.map(c=>`<button class="chip" type="button" data-c="${c[0]}" aria-pressed="${c[0]===cur}">${esc(lang==="ar"?c[1]:c[2])}</button>`).join("")}
+function drawGrid(){grid.innerHTML=apps.filter(a=>cur==="all"||a.c===cur).map(a=>`<article class="card">
+ <div class="ico" style="background:${a.col}">${esc(a.i)}</div>
+ <h3>${esc(a.n)}</h3><div class="tag">${esc(cats.find(c=>c[0]===a.c)[lang==="ar"?1:2])}</div>
+ <p style="margin:0">${esc(a.d)}</p><ul>${a.f.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+ <div class="row"><div class="price">${esc(a.p)} <small>${esc(a.u)}</small></div>
+ ${a.s?`<span class="soon">${lang==="ar"?"قريباً":"Bald"}</span>`:a.l?`<a class="btn dark" href="${esc(a.l)}">${lang==="ar"?"اشترِ":"Kaufen"}</a>`:`<button class="btn dark buy" type="button" data-app="${esc(a.n)}">${a.w?(lang==="ar"?"اطلب عرضاً":"Angebot"):(lang==="ar"?"اشترِ":"Kaufen")}</button>`}</div></article>`).join("")}
+chips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;cur=b.dataset.c;drawChips();drawGrid()});
+const dlg=document.getElementById("dlg");
+document.addEventListener("click",e=>{const b=e.target.closest(".buy");if(!b)return;document.getElementById("dlgT").textContent=b.dataset.app;try{dlg.showModal()}catch(_){dlg.setAttribute("open","")}});
+document.getElementById("close").addEventListener("click",()=>dlg.close());
+const de={nApps:"Apps",nBundle:"Paket",nSvc:"Ihre eigene App",nFaq:"Fragen",hTitle:"Smarte Apps für Arbeit und Alltag – auf Arabisch und Deutsch",hSub:"Buchhaltung für Ihren Laden, Werkzeuge für Händler, Apps für Persönlichkeit und Familie. Alles in einem Shop, sicher bezahlt, einige kostenlos.",hCta:"Apps ansehen",hCta2:"Eigene App anfragen",aTitle:"Apps",aNote:"Preise wie auf der Polar-Bezahlseite. Der Endpreis inkl. Steuer wird vor der Zahlung angezeigt.",bTitle:"Paket Persönlichkeit",bSub:"Vier Apps zusammen in einem günstigeren Abo.",bSoon:"Bald",sTitle:"Wir bauen Ihre App",sSub:"Für Laden oder Firma: Treue- und Punkte-Apps, Lager, Buchhaltung, Fernwartung. In Deutschland und am Golf.",s1:"Treue-App",s1d:"Punkte, Empfehlungscodes und Prämien in Ihren Farben.",s2:"Lager und Verkauf",s2d:"Warnung bei niedrigem Bestand, täglicher Gewinnbericht.",s3:"Website oder System",s3d:"Für Praxen, Büros und Restaurants – AR, DE, EN.",fTitle:"Häufige Fragen"};
+const ar={};document.querySelectorAll("[data-t]").forEach(el=>ar[el.dataset.t]=el.textContent);
+document.getElementById("lang").addEventListener("click",()=>{lang=lang==="ar"?"de":"ar";document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+ document.querySelectorAll("[data-t]").forEach(el=>{const v=(lang==="ar"?ar:de)[el.dataset.t];if(v)el.textContent=v});
+ document.getElementById("lang").textContent=lang==="ar"?"Deutsch":"العربية";drawChips();drawGrid()});
+drawChips();drawGrid();
+}
+</script>
+</body>
+</html>
