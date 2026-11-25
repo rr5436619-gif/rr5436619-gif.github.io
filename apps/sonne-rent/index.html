@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sonne Rent — نظام تأجير السيارات</title>
+<style>
+:root{--p:#0f62fe;--pd:#0b4fd1;--bg:#f4f6fa;--c:#fff;--t:#1d2433;--m:#6b7486;--bd:#e3e7ef;--g:#14a44d;--r:#dc3545;--rad:14px}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif;background:var(--bg);color:var(--t);font-size:15px;line-height:1.5}
+a{color:var(--p);text-decoration:none;cursor:pointer}
+.btn{background:var(--p);color:#fff;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer;display:inline-block;white-space:nowrap;text-align:center}
+.btn:hover{background:var(--pd)}
+.btn.ghost{background:#eef3ff;color:var(--p)}
+.btn.ghost:hover{background:#dfe9ff}
+.btn.sm{padding:6px 10px;font-size:13px}
+.btn.wide{width:100%;margin-top:8px}
+.shell{display:flex;min-height:100vh}
+aside{width:250px;flex-shrink:0;background:#121a2b;color:#cfd6e4;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:10px;padding:18px;font-size:17px;color:#fff}
+.brand img,.lg{width:38px;height:38px;border-radius:10px;object-fit:cover;display:grid;place-items:center;background:var(--p);font-size:20px;flex-shrink:0}
+aside nav{flex:1;overflow:auto;padding:6px 10px}
+aside nav a{display:flex;align-items:center;gap:10px;color:#cfd6e4;padding:10px 12px;border-radius:10px;margin-bottom:2px}
+aside nav a.on,aside nav a:hover{background:#1f2b45;color:#fff}
+aside nav i{font-style:normal;width:22px;text-align:center}
+em{font-style:normal;background:var(--r);color:#fff;border-radius:20px;padding:0 7px;font-size:12px;margin-inline-start:auto}
+.me{padding:14px 18px;border-top:1px solid #23304d;display:flex;flex-direction:column;gap:6px;color:#fff}
+.me small{color:#8d98b0}
+main{flex:1;min-width:0}
+.top{display:flex;align-items:center;gap:12px;padding:14px 22px;background:var(--c);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+.top h1{font-size:19px;margin:0;flex:1}
+.menu{display:none;background:none;border:0;font-size:24px;cursor:pointer;padding:0 4px}
+.bell{position:relative;font-size:20px}
+.bell em{position:absolute;top:-6px;left:-12px}
+#pg{padding:22px;max-width:1300px}
+.card{background:var(--c);border:1px solid var(--bd);border-radius:var(--rad);padding:18px;margin-bottom:18px}
+.card h3{margin:0 0 14px;font-size:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:var(--c);border:1px solid var(--bd);border-radius:var(--rad);padding:16px;display:grid;gap:4px}
+.kpi i{font-style:normal;font-size:22px}
+.kpi span{color:var(--m);font-size:13px}
+.kpi b{font-size:21px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.grid2>.card{margin-bottom:0}
+.bars{display:flex;align-items:flex-end;gap:10px;height:200px;padding-top:10px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;gap:4px}
+.bar div{width:100%;max-width:46px;background:linear-gradient(var(--p),#5b8ffe);border-radius:8px 8px 0 0;min-height:2px}
+.bar span{font-size:12px;color:var(--m)}
+.bar small{font-size:11px}
+.tw{overflow-x:auto;background:var(--c);border:1px solid var(--bd);border-radius:var(--rad);margin-bottom:18px}
+.card .tw{border:0;margin:0;border-radius:0}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--bd);vertical-align:middle}
+th{background:#f8fafd;font-size:13px;color:var(--m);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.nw{white-space:nowrap}
+.bdg{display:inline-block;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+.bdg.g{background:#e4f6ea;color:var(--g)}
+.bdg.o{background:#fff1de;color:#b86a00}
+.bdg.r{background:#fde7e9;color:var(--r)}
+.bdg.b{background:#e6efff;color:var(--p)}
+.bdg.x{background:#eceef2;color:#5b6375}
+.bar-top{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap}
+.bar-top input{flex:1;max-width:340px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;font:inherit;background:#fff;color:var(--t)}
+textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid #bcd3ff;border-color:var(--p)}
+.cars{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.car{background:var(--c);border:1px solid var(--bd);border-radius:var(--rad);overflow:hidden;display:flex;flex-direction:column}
+.car img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#eef2f7;display:block}
+.cb{padding:14px;display:grid;gap:6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.price{font-size:20px;font-weight:700;color:var(--p)}
+.price small{font-size:13px;color:var(--m);font-weight:400}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs a{padding:7px 13px;border-radius:20px;background:var(--c);border:1px solid var(--bd);color:var(--t);font-size:14px}
+.tabs a.on{background:var(--p);color:#fff;border-color:var(--p)}
+.li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd);color:var(--t)}
+.li:last-child{border:0}
+.li small{display:block}
+.mut{color:var(--m)}
+.sm{font-size:13px}
+.empty{color:var(--m);text-align:center;padding:26px}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.kv div{display:grid;gap:2px}
+.mod{position:fixed;inset:0;background:rgba(15,22,40,.55);display:none;align-items:flex-start;justify-content:center;z-index:50;overflow:auto;padding:30px 12px}
+.mbox{background:#fff;border-radius:16px;padding:22px;width:100%;max-width:640px}
+.mbox h3{margin-top:0}
+form#frm{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{display:grid;gap:5px;align-content:start}
+.fld>span{font-size:13px;color:var(--m);font-weight:600}
+.fld.full,.mbox .acts,.calc{grid-column:1/-1}
+.chk{display:inline-flex;align-items:center;gap:6px;margin:3px 0 3px 12px;font-size:14px}
+.chk input{width:auto}
+.thumbs{display:flex;gap:6px;flex-wrap:wrap}
+.thumbs img{width:70px;height:52px;object-fit:cover;border-radius:8px}
+.thumbs.big img{width:140px;height:100px}
+.calc{background:#eef3ff;border-radius:10px;padding:10px 14px;font-weight:600}
+.calc:empty{display:none}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#121a2b;color:#fff;padding:12px 18px;border-radius:12px;z-index:99;max-width:90vw;text-align:center}
+.login{min-height:100vh;display:grid;place-items:center;padding:16px;background:linear-gradient(135deg,#121a2b,#0f62fe)}
+.login .card{width:100%;max-width:380px;display:grid;gap:10px;text-align:center}
+.login .lg,.login .card img{margin:auto;width:56px;height:56px}
+.login h2{margin:4px 0 0}
+.ov{display:none}
+.pub .ph{display:flex;justify-content:space-between;align-items:center;padding:12px 22px;background:#121a2b;flex-wrap:wrap;gap:10px}
+.pub .ph nav a{color:#fff;margin-inline-start:16px;opacity:.75}
+.pub .ph nav a.on{opacity:1;font-weight:700}
+.pub .brand{padding:0}
+.pub .brand small{display:block;color:#9aa6bf;font-size:12px}
+.hero{background:linear-gradient(135deg,#121a2b,#0f62fe);color:#fff;text-align:center;padding:42px 18px}
+.hero h1{margin:0 0 8px;font-size:28px}
+.hero p{margin:0;opacity:.85}
+.pubc{padding:22px;max-width:1200px;margin:auto}
+.narrow{max-width:520px;margin:30px auto}
+.pf{text-align:center;padding:24px;color:var(--m);font-size:13px}
+.inv .ih{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:18px}
+.inv h2{margin:6px 0}
+.to{margin-bottom:14px}
+.tots{max-width:330px;margin:14px auto 0 0;display:grid;gap:6px}
+.tots div{display:flex;justify-content:space-between;gap:20px}
+.tots .g{font-size:18px;border-top:2px solid var(--t);padding-top:6px}
+@media(max-width:900px){
+ .grid2{grid-template-columns:1fr}
+ aside{position:fixed;right:-270px;z-index:40;transition:right .25s}
+ aside.open{right:0}
+ .ov.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:30}
+ .menu{display:block}
+ #pg{padding:14px}
+ form#frm{grid-template-columns:1fr}
+ .top .btn{display:none}
+ .hero h1{font-size:22px}
+}
+@media print{
+ body{background:#fff}
+ body *{visibility:hidden}
+ #print,#print *{visibility:visible}
+ #print{position:absolute;inset:0;border:0;margin:0}
+ aside,.top{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+"use strict";
+const K='sonne_rent_v1';
+/* إعداد النشر لكل عميل: ضع هنا رابط ومفتاح Supabase الخاص بشركته ليعمل الموقع على كل الأجهزة */
+const EMBED={url:'',key:''};
+let S=null,ME=null,FORM=null,ASKFN=null;
+const app=document.getElementById('app');
+const $=s=>document.querySelector(s);
+
+/* ---------- ثوابت ---------- */
+const MODS=[['dash','لوحة التحكم','📊'],['fleet','الأسطول','🚗'],['status','حالة السيارات','🔧'],['customers','العملاء','👥'],['bookings','الحجوزات','📅'],['handover','التسليم والاستلام','🔑'],['invoices','الفواتير والمدفوعات','🧾'],['accidents','بلاغات الحوادث','⚠️'],['notify','التنبيهات','🔔'],['reports','التقارير','📈'],['users','المستخدمون والصلاحيات','🛡️'],['settings','الإعدادات','⚙️']];
+const PRESETS={admin:MODS.map(m=>m[0]),ops:['dash','fleet','status','customers','bookings','handover','accidents','notify'],acc:['dash','customers','invoices','reports','notify']};
+const ROLES={admin:'مدير النظام',ops:'فريق التشغيل',acc:'المحاسب',custom:'صلاحيات مخصصة'};
+const CST={available:['متاحة','g'],reserved:['محجوزة','b'],rented:['مؤجرة','o'],maint:['صيانة','r'],out:['خارج الخدمة','x']};
+const BST={new:['جديد','b'],confirmed:['مؤكد','g'],active:['جاري','o'],done:['منتهي','x'],cancelled:['ملغي','r']};
+const IST={open:['غير مدفوعة','r'],part:['مدفوعة جزئياً','o'],paid:['مدفوعة','g'],cancelled:['ملغاة (ستورنو)','x'],storno:['فاتورة إلغاء','x']};
+const ACST={new:['جديد','r'],progress:['قيد المعالجة','o'],closed:['مغلق','g']};
+const MN=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+/* ---------- أدوات ---------- */
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const iso=d=>{const x=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return x.toISOString().slice(0,10)};
+const today=()=>iso(new Date());
+const addD=(d,n)=>{const x=new Date(d+'T12:00:00');x.setDate(x.getDate()+n);return iso(x)};
+const dif=(a,b)=>Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/864e5);
+const dd=(a,b)=>Math.max(1,dif(a,b));
+const num=n=>(+n||0).toLocaleString('en-US');
+const money=n=>(Math.round((+n||0)*100)/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' '+S.settings.currency;
+const fd=d=>d?String(d).slice(0,10).split('-').reverse().join('.'):'—';
+const fdt=d=>d?fd(d)+' '+new Date(d).toTimeString().slice(0,5):'—';
+const badge=(m,k)=>`<span class="bdg ${m[k]?m[k][1]:'x'}">${m[k]?m[k][0]:esc(k)}</span>`;
+const carName=id=>(S.cars.find(c=>c.id===id)||{}).name||'';
+const cuName=id=>(S.customers.find(c=>c.id===id)||{}).name||'';
+const bkNo=id=>(S.bookings.find(b=>b.id===id)||{}).no||'—';
+const norm=s=>String(s||'').replace(/[\s-]/g,'').toUpperCase();
+const digits=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d=(S.settings.cc||'49')+d.slice(1);return d};
+const wa=(p,t)=>`https://wa.me/${digits(p)}${t?'?text='+encodeURIComponent(t):''}`;
+const empty=t=>`<div class="empty">${t||'لا توجد بيانات بعد'}</div>`;
+const logoHtml=()=>S.settings.logo?`<img src="${S.settings.logo}" alt="">`:'<span class="lg">🚗</span>';
+const cell=c=>c&&typeof c==='object'&&'h' in c?c.h:esc(c);
+const tbl=(cols,rows)=>rows.length?`<div class="tw"><table><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>${rows.map(r=>`<tr>${r.map(c=>`<td>${cell(c)}</td>`).join('')}</tr>`).join('')}</table></div>`:empty();
+async function h(p){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('sonne-rent:'+p));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return 'p:'+p}}
+function save(){if(SB){if(ME)queuePush();return}try{localStorage.setItem(K,JSON.stringify(S))}catch(e){toast('تعذّر الحفظ — قد تكون مساحة المتصفح ممتلئة بالصور. خذ نسخة احتياطية واحذف صوراً قديمة.')}}
+function toast(m){let t=$('#toast');if(!t){t=document.createElement('div');t.id='toast';document.body.appendChild(t)}t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',3800)}
+function showModal(html){let m=$('#mod');if(!m){m=document.createElement('div');m.id='mod';m.className='mod';document.body.appendChild(m)}m.innerHTML=`<div class="mbox">${html}</div>`;m.style.display='flex';m.scrollTop=0}
+function closeModal(){const m=$('#mod');if(m)m.style.display='none'}
+function ask(msg,fn){ASKFN=fn;showModal(`<p>${msg}</p><div class="acts"><button class="btn" onclick="closeModal();ASKFN()">نعم</button><button class="btn ghost" onclick="closeModal()">لا</button></div>`)}
+function go(r){const t='#'+r.replace('/','-');if(location.hash===t)render();else location.hash=t}
+const sub=()=>location.hash.slice(1).replace(/^\//,'').split(/[-/]/)[1];
+function filt(inp,sel){const q=inp.value.trim().toLowerCase();document.querySelectorAll(sel).forEach(e=>e.style.display=(e.dataset.s||'').toLowerCase().includes(q)?'':'none')}
+function can(m){return !!ME&&(ME.role==='admin'||(ME.perms||[]).includes(m))}
+function openSide(){$('#side').classList.add('open');$('.ov').classList.add('open')}
+function closeSide(){const s=$('#side');if(s){s.classList.remove('open');$('.ov').classList.remove('open')}}
+function carSvg(c){return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180"><rect width="320" height="180" fill="#eef2f7"/><ellipse cx="165" cy="152" rx="130" ry="8" fill="#d5dbe5"/><path d="M38 122 L58 88 Q68 72 90 70 L198 68 Q224 68 240 84 L266 102 Q292 106 292 122 L292 136 L38 136 Z" fill="${c}"/><path d="M96 78 L194 76 Q212 76 225 92 L90 94 Z" fill="#d6e7f7"/><rect x="150" y="76" width="5" height="18" fill="${c}"/><circle cx="95" cy="136" r="21" fill="#222"/><circle cx="95" cy="136" r="9" fill="#bbb"/><circle cx="236" cy="136" r="21" fill="#222"/><circle cx="236" cy="136" r="9" fill="#bbb"/><rect x="276" y="110" width="14" height="7" rx="3" fill="#ffe27a"/></svg>`)}
+
+/* ---------- الصور ---------- */
+function resize(file){return new Promise(res=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const sc=Math.min(1,900/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.7))};im.onerror=()=>res(null);im.src=r.result};r.onerror=()=>res(null);r.readAsDataURL(file)})}
+function thumbs(v){return (Array.isArray(v)?v:v?[v]:[]).map(s=>`<img src="${s}" alt="">`).join('')}
+function pickImg(inp,k,multi){Promise.all([...inp.files].map(resize)).then(arr=>{arr=arr.filter(Boolean);FORM.vals[k]=multi?[...(FORM.vals[k]||[]),...arr]:arr[0];document.getElementById('th_'+k).innerHTML=thumbs(FORM.vals[k])})}
+
+/* ---------- النماذج ---------- */
+function fieldHtml(f,v){const req=f.req?'required':'';let inp;
+ switch(f.t){
+ case 'select':inp=`<select name="${f.k}" ${req}>${f.o.map(o=>{const[val,lab]=Array.isArray(o)?o:[o,o];return `<option value="${esc(val)}" ${String(val)===String(v??'')?'selected':''}>${esc(lab)}</option>`}).join('')}</select>`;break;
+ case 'textarea':inp=`<textarea name="${f.k}" ${req}>${esc(v)}</textarea>`;break;
+ case 'image':inp=`<input type="file" accept="image/*" ${f.multi?'multiple':''} onchange="pickImg(this,'${f.k}',${!!f.multi})"><div class="thumbs" id="th_${f.k}">${thumbs(v)}</div>`;break;
+ case 'checks':inp=`<div>${f.o.map(([val,lab])=>`<label class="chk"><input type="checkbox" name="${f.k}" value="${esc(val)}" ${(v||[]).includes(val)?'checked':''}> ${esc(lab)}</label>`).join('')}</div>`;break;
+ case 'check':inp=`<label class="chk"><input type="checkbox" name="${f.k}" ${v?'checked':''} ${req}> ${f.cl||''}</label>`;break;
+ default:inp=`<input type="${f.t||'text'}" name="${f.k}" value="${esc(v)}" ${req} ${f.t==='number'?'step="any"':''} ${f.ph?`placeholder="${esc(f.ph)}"`:''}>`;}
+ return `<label class="fld ${f.w?'full':''}">${f.l?`<span>${f.l}${f.req&&f.t!=='check'?' *':''}</span>`:''}${inp}</label>`}
+function openForm(title,fields,vals,onSave,extra){FORM={fields,onSave,vals:{...vals},live:null};
+ showModal(`<h3>${title}</h3><form id="frm" onsubmit="return submitForm(event)" oninput="FORM.live&&FORM.live(this)">${fields.map(f=>fieldHtml(f,vals[f.k])).join('')}${extra||''}<div class="acts"><button class="btn">حفظ</button><button type="button" class="btn ghost" onclick="closeModal()">إلغاء</button></div></form>`)}
+async function submitForm(e){e.preventDefault();const F=new FormData(e.target),v={};
+ for(const f of FORM.fields){if(f.t==='checks')v[f.k]=F.getAll(f.k);else if(f.t==='check')v[f.k]=F.has(f.k);else if(f.t==='image')v[f.k]=FORM.vals[f.k]||(f.multi?[]:'');else if(f.t==='number')v[f.k]=F.get(f.k)===''?'':+F.get(f.k);else v[f.k]=String(F.get(f.k)||'').trim()}
+ const r=await FORM.onSave(v);if(r===false)return false;closeModal();save();render();return false}
+
+/* ---------- منطق الحجز ---------- */
+function clash(carId,s,e,ex){return S.bookings.some(b=>b.id!==ex&&b.carId===carId&&['new','confirmed','active'].includes(b.status)&&s<b.end&&e>b.start)}
+function upsertCustomer(name,phone){const d=digits(phone);let c=S.customers.find(x=>digits(x.phone)===d);if(!c){c={id:uid(),name,phone,created:new Date().toISOString()};S.customers.push(c)}return c.id}
+function makeBooking(o){if(!o.start||!o.end||o.end<=o.start)return 'تاريخ الإرجاع يجب أن يكون بعد تاريخ الاستلام';
+ if(!o.force&&clash(o.carId,o.start,o.end,o.id))return 'السيارة محجوزة في هذه الفترة، اختر سيارة أو تاريخاً آخر';
+ const car=S.cars.find(c=>c.id===o.carId);if(!car)return 'اختر سيارة';const days=dd(o.start,o.end);
+ const data={customerId:o.customerId,carId:o.carId,start:o.start,end:o.end,days,price:+car.price,total:days*car.price,deposit:+car.deposit||0,notes:o.notes||''};
+ if(o.id){const b=S.bookings.find(x=>x.id===o.id);Object.assign(b,data);return b}
+ const b={id:uid(),no:SB?'BK-…':'BK-'+String(++S.cnt.bk).padStart(4,'0'),...(SB?{tmpNo:1}:{}),status:'new',source:o.source||'office',created:new Date().toISOString(),...data};S.bookings.push(b);return b}
+function opsMsg(b){const c=S.customers.find(x=>x.id===b.customerId)||{},car=S.cars.find(x=>x.id===b.carId)||{};return `🚗 حجز جديد ${b.no}\nالعميل: ${c.name}\nالهاتف: ${c.phone}\nالسيارة: ${car.name} (${car.plate})\nمن ${fd(b.start)} إلى ${fd(b.end)} — ${b.days} يوم\nالمبلغ: ${money(b.total)}`}
+function custMsg(b){const c=S.customers.find(x=>x.id===b.customerId)||{};return `مرحباً ${c.name}، ${b.status==='confirmed'?'تم تأكيد':'استلمنا'} حجزكم رقم ${b.no} لسيارة ${carName(b.carId)} من ${fd(b.start)} إلى ${fd(b.end)}. المبلغ: ${money(b.total)}. يرجى إحضار الهوية ورخصة القيادة عند الاستلام. — ${S.settings.name}`}
+function bkSet(id,st){const b=S.bookings.find(x=>x.id===id),car=S.cars.find(c=>c.id===b.carId);
+ const doIt=()=>{b.status=st;if(car){if(st==='confirmed'&&car.status==='available'&&b.start<=addD(today(),1))car.status='reserved';if(st==='cancelled'&&car.status==='reserved')car.status='available'}save();render();
+  if(st==='confirmed'){const c=S.customers.find(x=>x.id===b.customerId);if(c)showModal(`<h3>✅ تم تأكيد الحجز ${b.no}</h3><p>أرسل التأكيد للعميل برسالة جاهزة:</p><a class="btn wide" target="_blank" href="${wa(c.phone,custMsg(b))}">إرسال التأكيد عبر واتساب</a><button class="btn ghost wide" onclick="closeModal()">إغلاق</button>`)}};
+ st==='cancelled'?ask('إلغاء الحجز '+b.no+'؟',doIt):doIt()}
+function bkForm(id){const b=S.bookings.find(x=>x.id===id)||{start:today(),end:addD(today(),3)};
+ openForm(id?'تعديل الحجز '+b.no:'حجز جديد',[
+  {k:'customerId',l:'العميل',t:'select',o:[['','— عميل جديد —'],...S.customers.map(c=>[c.id,c.name+' · '+c.phone])],w:1},
+  {k:'newName',l:'اسم العميل الجديد'},{k:'newPhone',l:'هاتف العميل الجديد',t:'tel'},
+  {k:'carId',l:'السيارة',t:'select',req:1,w:1,o:S.cars.filter(c=>c.status!=='out').map(c=>[c.id,c.name+' · '+c.plate+' · '+money(c.price)+'/يوم'])},
+  {k:'start',l:'تاريخ الاستلام',t:'date',req:1},{k:'end',l:'تاريخ الإرجاع',t:'date',req:1},{k:'notes',l:'ملاحظات',t:'textarea',w:1}],b,v=>{
+  let cid=v.customerId;if(!cid){if(!v.newName||!v.newPhone){toast('اختر عميلاً أو أدخل اسم وهاتف عميل جديد');return false}cid=upsertCustomer(v.newName,v.newPhone)}
+  const r=makeBooking({id,customerId:cid,carId:v.carId,start:v.start,end:v.end,notes:v.notes,source:b.source});if(typeof r==='string'){toast(r);return false}},'<div class="calc" id="calc"></div>');
+ FORM.live=liveCalc;liveCalc($('#frm'))}
+function liveCalc(f){const el=$('#calc');if(!el||!f)return;const car=S.cars.find(c=>c.id===(f.carId?f.carId.value:FORM.vals.carId)),s=f.start.value,e=f.end.value;
+ if(!car||!s||!e||e<=s){el.textContent='';return}const d=dd(s,e);el.innerHTML=`${d} يوم × ${money(car.price)} = ${money(d*car.price)}${car.deposit?` <span class="mut sm">+ تأمين مسترد ${money(car.deposit)}</span>`:''}${clash(car.id,s,e,FORM.vals.id)?' <span class="bdg r">غير متاحة في هذه الفترة</span>':''}`}
+
+/* ---------- الفواتير ---------- */
+const tot=i=>i.items.reduce((a,x)=>a+x.q*x.p,0);
+const paid=i=>S.payments.filter(p=>p.invoiceId===i.id).reduce((a,p)=>a+(+p.amount||0),0);
+const ist=i=>i.storno?'storno':i.cancelled?'cancelled':paid(i)>=tot(i)-0.005?'paid':paid(i)>0?'part':'open';
+const due=i=>['storno','cancelled'].includes(ist(i))?0:Math.max(0,tot(i)-paid(i));
+const hasInv=bid=>S.invoices.some(i=>i.bookingId===bid&&!i.storno&&!i.cancelled);
+function newInv(cid,bid,items,storno){const y=new Date().getFullYear();const i={id:uid(),no:SB?`RE-${y}-…`:`RE-${y}-${String(++S.cnt.inv).padStart(4,'0')}`,...(SB?{tmpNo:1}:{}),date:today(),customerId:cid,bookingId:bid||'',items,vat:+S.settings.vat,storno:storno||null};S.invoices.push(i);return i}
+function mkInvoice(bid,silent){const b=S.bookings.find(x=>x.id===bid);const i=newInv(b.customerId,bid,[{d:`تأجير ${carName(b.carId)} (${fd(b.start)} – ${fd(b.end)})`,q:b.days,p:b.price},...(b.extras||[])]);if(!silent){save();go('invoices/'+i.id)}return i}
+function payUrl(d){const l=S.settings.payLink||'';return /paypal\.me/i.test(l)?l.replace(/\/+$/,'')+'/'+d.toFixed(2)+'EUR':l}
+function payForm(iid){const i=S.invoices.find(x=>x.id===iid);openForm('تسجيل دفعة — '+i.no,[{k:'amount',l:'المبلغ',t:'number',req:1},{k:'date',l:'التاريخ',t:'date',req:1},{k:'method',l:'طريقة الدفع',t:'select',o:['نقداً','تحويل بنكي','بطاقة (EC / Kredit)','PayPal','دفع إلكتروني (رابط)']},{k:'ref',l:'المرجع / ملاحظة'}],{amount:+due(i).toFixed(2),date:today()},v=>{if(!(v.amount>0)||v.amount>due(i)+0.01){toast('المبلغ غير صحيح');return false}S.payments.push({id:uid(),invoiceId:iid,...v})})}
+function storno(iid){ask('إلغاء الفاتورة بإصدار فاتورة إلغاء (Storno)؟ الفواتير لا تُحذف قانونياً.',()=>{const i=S.invoices.find(x=>x.id===iid);i.cancelled=true;const s=newInv(i.customerId,i.bookingId,i.items.map(x=>({...x,q:-x.q})),i.id);save();go('invoices/'+s.id)})}
+function manInv(){if(!S.customers.length){toast('أضف عميلاً أولاً');return}openForm('فاتورة يدوية (أضرار، خدمات إضافية...)',[{k:'customerId',l:'العميل',t:'select',o:S.customers.map(c=>[c.id,c.name]),req:1,w:1},{k:'d',l:'البيان',req:1,w:1},{k:'q',l:'الكمية',t:'number',req:1},{k:'p',l:'سعر الوحدة (شامل الضريبة)',t:'number',req:1}],{q:1},v=>{const i=newInv(v.customerId,'',[{d:v.d,q:v.q,p:v.p}]);setTimeout(()=>go('invoices/'+i.id),0)})}
+
+/* ---------- التسليم والاستلام ---------- */
+function extras(b,hh){const s=S.settings,o=S.handovers.find(x=>x.bookingId===b.id&&x.type==='out'),ex=[];if(!o)return ex;
+ const lim=(+s.kmPerDay||0)*b.days,dr=(+hh.km)-(+o.km);if(lim&&dr>lim&&+s.extraKm)ex.push({d:`كيلومترات إضافية (قُطع ${num(dr)} كم، المسموح ${num(lim)})`,q:dr-lim,p:+s.extraKm});
+ const f=(+o.fuel)-(+hh.fuel);if(f>0&&+s.fuelFee)ex.push({d:`نقص الوقود (${f}/8 خزان)`,q:f,p:+s.fuelFee});
+ const late=dif(b.end,today());if(late>0)ex.push({d:`تأخير في الإرجاع (${late} يوم)`,q:late,p:b.price});return ex}
+function hoForm(bid,type){const b=S.bookings.find(x=>x.id===bid),car=S.cars.find(c=>c.id===b.carId);
+ const o=S.handovers.find(x=>x.bookingId===bid&&x.type==='out');
+ const chk=['الإطارات سليمة','الأضواء تعمل','نظيفة من الداخل','المثلث وحقيبة الإسعاف','أوراق السيارة','الإطار الاحتياطي'];
+ openForm((type==='out'?'🔑 تسليم السيارة للعميل — ':'↩️ استلام السيارة من العميل — ')+b.no,[
+  {k:'km',l:'قراءة العداد (كم)',t:'number',req:1},{k:'fuel',l:'مستوى الوقود',t:'select',o:[8,7,6,5,4,3,2,1,0].map(x=>[x,x+'/8'+(x===8?' (ممتلئ)':'')])},
+  {k:'checks',l:'قائمة الفحص',t:'checks',o:chk.map(x=>[x,x]),w:1},{k:'damages',l:'الأضرار والخدوش (اتركه فارغاً إن لم يوجد)',t:'textarea',w:1},
+  {k:'photos',l:'صور السيارة',t:'image',multi:1,w:1},{k:'sign',l:'اسم العميل (توقيع بالموافقة)',req:1},
+  {k:'ok',t:'check',cl:'العميل اطّلع على حالة السيارة ووافق عليها',req:1,w:1}],
+  {km:car.km,fuel:type==='out'?8:(o?o.fuel:8),sign:cuName(b.customerId),checks:type==='in'&&o?o.checks:[]},v=>{
+  if(type==='in'&&o&&+v.km<+o.km){toast('قراءة العداد أقل من قراءة التسليم ('+num(o.km)+')');return false}
+  const hh={id:uid(),bookingId:bid,type,date:new Date().toISOString(),staff:ME?ME.name:'',...v};delete hh.ok;S.handovers.push(hh);car.km=Math.max(+car.km||0,+v.km||0);
+  if(type==='out'){b.status='active';car.status='rented'}
+  else{b.status='done';car.status=v.damages?'maint':'available';b.extras=extras(b,hh);if(!hasInv(b.id))mkInvoice(b.id,true);else if(b.extras.length)newInv(b.customerId,b.id,b.extras);
+   const ex=b.extras;setTimeout(()=>toast(ex.length?'تم الاستلام. رسوم إضافية: '+ex.map(e=>e.d).join('، '):'تم الاستلام وإصدار الفاتورة'+(v.damages?' — السيارة حُوّلت للصيانة بسبب الأضرار':'')),300)}})}
+function hoView(id){const x=S.handovers.find(y=>y.id===id);showModal(`<h3>${x.type==='out'?'تسليم':'استلام'} — ${bkNo(x.bookingId)}</h3><p>التاريخ: ${fdt(x.date)}<br>العداد: ${num(x.km)} كم · الوقود: ${x.fuel}/8<br>الموظف: ${esc(x.staff)} · توقيع العميل: ${esc(x.sign)}</p><p><b>الفحص:</b> ${(x.checks||[]).map(esc).join('، ')||'—'}</p><p><b>الأضرار:</b> ${esc(x.damages||'لا يوجد')}</p><div class="thumbs big">${thumbs(x.photos)}</div><div class="acts"><button class="btn" onclick="closeModal()">إغلاق</button></div>`)}
+
+/* ---------- السيارات ---------- */
+function carWarn(c){const w=[],t=today();if(+c.nextServiceKm&&+c.km>=+c.nextServiceKm)w.push('صيانة مستحقة');if(c.tuv&&dif(t,c.tuv)<=30)w.push(c.tuv<t?'TÜV منتهي':'TÜV قريب');if(c.insExp&&dif(t,c.insExp)<=30)w.push(c.insExp<t?'التأمين منتهي':'التأمين ينتهي قريباً');return w}
+const CARF=()=>[{k:'name',l:'اسم السيارة',req:1,ph:'مثال: تويوتا كورولا'},{k:'year',l:'سنة الصنع',t:'number'},{k:'plate',l:'رقم اللوحة',req:1},{k:'color',l:'اللون'},{k:'category',l:'الفئة',t:'select',o:['اقتصادية','متوسطة','فاخرة','SUV','فان / نقل']},{k:'seats',l:'المقاعد',t:'number'},{k:'gear',l:'ناقل الحركة',t:'select',o:['أوتوماتيك','يدوي']},{k:'fuelType',l:'الوقود',t:'select',o:['بنزين','ديزل','هايبرد','كهرباء']},{k:'price',l:'السعر اليومي',t:'number',req:1},{k:'deposit',l:'التأمين المسترد (كفالة)',t:'number'},{k:'km',l:'عداد الكيلومترات',t:'number'},{k:'status',l:'الحالة',t:'select',o:Object.entries(CST).map(([k,v])=>[k,v[0]])},{k:'insExp',l:'انتهاء التأمين',t:'date'},{k:'tuv',l:'موعد الفحص الفني (TÜV)',t:'date'},{k:'nextServiceKm',l:'الصيانة القادمة عند (كم)',t:'number'},{k:'img',l:'صورة السيارة',t:'image',w:1},{k:'notes',l:'ملاحظات',t:'textarea',w:1}];
+function carForm(id){const c=S.cars.find(x=>x.id===id)||{status:'available',category:'اقتصادية',gear:'أوتوماتيك',fuelType:'بنزين',seats:5};openForm(id?'تعديل سيارة':'إضافة سيارة',CARF(),c,v=>{if(S.cars.some(x=>x.id!==id&&norm(x.plate)===norm(v.plate))){toast('رقم اللوحة مسجّل مسبقاً');return false}if(id)Object.assign(c,v);else S.cars.push({id:uid(),...v})})}
+function delCar(id){if(S.bookings.some(b=>b.carId===id)){toast('لا يمكن حذف سيارة لها حجوزات — غيّر حالتها إلى «خارج الخدمة»');return}ask('حذف السيارة نهائياً؟',()=>{S.cars=S.cars.filter(c=>c.id!==id);save();render()})}
+function setCarSt(id,st){S.cars.find(c=>c.id===id).status=st;save();toast('تم تحديث الحالة')}
+function maintForm(){if(!S.cars.length)return toast('أضف سيارة أولاً');openForm('تسجيل صيانة',[{k:'carId',l:'السيارة',t:'select',o:S.cars.map(c=>[c.id,c.name+' · '+c.plate]),req:1,w:1},{k:'date',l:'التاريخ',t:'date',req:1},{k:'type',l:'النوع',t:'select',o:['زيت وفلاتر','إطارات','فرامل','فحص TÜV','إصلاح هيكل','إصلاح ميكانيك','أخرى']},{k:'km',l:'العداد',t:'number'},{k:'cost',l:'التكلفة',t:'number'},{k:'nextKm',l:'الصيانة القادمة عند (كم)',t:'number'},{k:'notes',l:'ملاحظات',t:'textarea',w:1},{k:'inMaint',t:'check',cl:'السيارة الآن في الورشة',w:1}],{date:today()},v=>{const c=S.cars.find(x=>x.id===v.carId);S.maint.push({id:uid(),carId:v.carId,date:v.date,type:v.type,km:v.km,cost:v.cost,notes:v.notes});if(+v.km>+c.km)c.km=v.km;if(v.nextKm)c.nextServiceKm=v.nextKm;if(v.type==='فحص TÜV')c.tuv=addD(v.date,730);c.status=v.inMaint?'maint':(c.status==='maint'?'available':c.status)})}
+
+/* ---------- العملاء ---------- */
+const CUF=[{k:'name',l:'الاسم الكامل',req:1},{k:'phone',l:'الهاتف / واتساب',req:1,t:'tel'},{k:'email',l:'البريد الإلكتروني',t:'email'},{k:'birth',l:'تاريخ الميلاد',t:'date'},{k:'address',l:'العنوان',w:1},{k:'idNo',l:'رقم الهوية / الجواز'},{k:'license',l:'رقم رخصة القيادة'},{k:'licenseExp',l:'انتهاء الرخصة',t:'date'},{k:'notes',l:'ملاحظات',t:'textarea',w:1}];
+function cuForm(id){const c=S.customers.find(x=>x.id===id)||{};openForm(id?'تعديل عميل':'عميل جديد',CUF,c,v=>{if(id)Object.assign(c,v);else S.customers.push({id:uid(),created:new Date().toISOString(),...v})})}
+function delCu(id){if(S.bookings.some(b=>b.customerId===id)||S.invoices.some(i=>i.customerId===id)){toast('لا يمكن حذف عميل له حجوزات أو فواتير');return}ask('حذف العميل؟',()=>{S.customers=S.customers.filter(c=>c.id!==id);save();render()})}
+
+/* ---------- الحوادث ---------- */
+function acForm(id){const a=S.accidents.find(x=>x.id===id)||{date:today(),status:'new'};
+ openForm(id?'تعديل بلاغ':'بلاغ حادث جديد',[{k:'date',l:'تاريخ الحادث',t:'date',req:1},{k:'carId',l:'السيارة',t:'select',o:[['','—'],...S.cars.map(c=>[c.id,c.name+' · '+c.plate])]},{k:'bookingId',l:'الحجز المرتبط',t:'select',o:[['','—'],...S.bookings.filter(b=>b.status!=='cancelled').map(b=>[b.id,b.no+' · '+cuName(b.customerId)])]},{k:'reporter',l:'اسم المُبلِّغ'},{k:'phone',l:'هاتف المُبلِّغ',t:'tel'},{k:'location',l:'مكان الحادث'},{k:'desc',l:'وصف ما حدث',t:'textarea',req:1,w:1},{k:'police',l:'رقم محضر الشرطة'},{k:'third',l:'الطرف الآخر / شركة تأمينه'},{k:'photos',l:'الصور',t:'image',multi:1,w:1},{k:'status',l:'الحالة',t:'select',o:Object.entries(ACST).map(([k,v])=>[k,v[0]])},{k:'cost',l:'تكلفة الإصلاح',t:'number'},{k:'toMaint',t:'check',cl:'تحويل السيارة إلى الصيانة',w:1}],a,v=>{const t=v.toMaint;delete v.toMaint;if(id)Object.assign(a,v);else S.accidents.push({id:uid(),created:new Date().toISOString(),source:'office',...v});const c=S.cars.find(x=>x.id===v.carId);if(t&&c)c.status='maint'})}
+function acView(id){const a=S.accidents.find(x=>x.id===id);showModal(`<h3>⚠️ بلاغ حادث — ${fd(a.date)}</h3><p>${badge(ACST,a.status)} ${a.source==='online'?'<span class="bdg b">من صفحة العملاء</span>':''}</p><p>السيارة: ${esc(carName(a.carId)||a.plate||'—')}<br>الحجز: ${a.bookingId?bkNo(a.bookingId):'—'}<br>المُبلِّغ: ${esc(a.reporter||'—')} ${a.phone?`· <a target="_blank" href="${wa(a.phone)}">${esc(a.phone)}</a>`:''}<br>المكان: ${esc(a.location||'—')}<br>محضر الشرطة: ${esc(a.police||'—')}<br>الطرف الآخر: ${esc(a.third||'—')}<br>التكلفة: ${a.cost?money(a.cost):'—'}</p><p>${esc(a.desc)}</p><div class="thumbs big">${thumbs(a.photos)}</div><div class="acts"><button class="btn" onclick="acForm('${a.id}')">تعديل</button><button class="btn ghost" onclick="closeModal()">إغلاق</button></div>`)}
+
+/* ---------- المستخدمون ---------- */
+function userForm(id){const u=S.users.find(x=>x.id===id)||{role:'ops',active:true,perms:PRESETS.ops};
+ openForm(id?'تعديل مستخدم':'مستخدم جديد',[{k:'name',l:'الاسم',req:1},...(SB?[{k:'user',l:'البريد الإلكتروني (حسابه في Supabase)',t:'email',req:1,w:1}]:[{k:'user',l:'اسم الدخول',req:1},{k:'pass',l:id?'كلمة مرور جديدة (اتركها فارغة للإبقاء)':'كلمة المرور',t:'password',req:!id}]),{k:'role',l:'الدور',t:'select',o:Object.entries(ROLES)},{k:'perms',l:'الأقسام المسموحة (للدور المخصص فقط)',t:'checks',o:MODS.map(m=>[m[0],m[1]]),w:1},{k:'active',t:'check',cl:'الحساب فعّال',w:1}],{...u,pass:''},async v=>{
+  if(S.users.some(x=>x.user===v.user&&x.id!==id)){toast('اسم الدخول مستخدم مسبقاً');return false}
+  if(SB)v.user=v.user.toLowerCase();if(v.pass&&v.pass.length<6){toast('كلمة المرور 6 أحرف على الأقل');return false}
+  const o={name:v.name,user:v.user,role:v.role,perms:v.role==='custom'?v.perms:PRESETS[v.role],active:v.active};
+  if(id&&u.role==='admin'&&(v.role!=='admin'||!v.active)&&S.users.filter(x=>x.role==='admin'&&x.active!==false).length<2){toast('يجب أن يبقى مدير فعّال واحد على الأقل');return false}
+  if(v.pass)o.pass=await h(v.pass);if(id){Object.assign(u,o);if(u.id===ME.id)ME=u}else S.users.push({id:uid(),...o})})}
+function delUser(id){const u=S.users.find(x=>x.id===id);if(u.role==='admin'&&S.users.filter(x=>x.role==='admin').length<2)return toast('لا يمكن حذف آخر مدير');ask('حذف المستخدم '+esc(u.name)+'؟',()=>{S.users=S.users.filter(x=>x.id!==id);save();render()})}
+
+/* ---------- التنبيهات ---------- */
+function notifs(){const n=[],t=today();
+ S.bookings.filter(b=>b.status==='new').forEach(b=>n.push(['b','📅',`حجز جديد ${b.no} — ${cuName(b.customerId)} (${carName(b.carId)})`,'bookings/new']));
+ S.bookings.filter(b=>b.status==='confirmed'&&b.start<=t).forEach(b=>n.push(['o','🔑',`تسليم مستحق: ${b.no} — ${carName(b.carId)} (${fd(b.start)})`,'handover']));
+ S.bookings.filter(b=>b.status==='active'&&b.end<t).forEach(b=>n.push(['r','⏰',`تأخر إرجاع ${carName(b.carId)} — الحجز ${b.no} (منذ ${dif(b.end,t)} يوم)`,'handover']));
+ S.bookings.filter(b=>b.status==='active'&&b.end===t).forEach(b=>n.push(['o','↩️',`إرجاع اليوم: ${carName(b.carId)} — ${b.no}`,'handover']));
+ S.cars.forEach(c=>carWarn(c).forEach(w=>n.push(['o','🔧',`${c.name} (${c.plate}): ${w}`,'status'])));
+ S.accidents.filter(a=>a.status==='new').forEach(a=>n.push(['r','⚠️',`بلاغ حادث جديد — ${carName(a.carId)||a.plate||''} ${a.source==='online'?'(من العميل)':''}`,'accidents']));
+ S.invoices.filter(i=>due(i)>0&&dif(i.date,t)>14).forEach(i=>n.push(['o','🧾',`فاتورة ${i.no} غير مدفوعة منذ أكثر من 14 يوماً (${money(due(i))})`,'invoices/'+i.id]));
+ S.customers.filter(c=>c.licenseExp&&c.licenseExp<t).forEach(c=>n.push(['r','🪪',`رخصة قيادة العميل ${c.name} منتهية`,'customers']));
+ return n.filter(x=>can(x[3].split('/')[0]))}
+function notifList(n){return n.length?n.map(x=>`<a class="li" href="#${x[3].replace('/','-')}"><span>${x[1]} ${esc(x[2])}</span><span class="bdg ${x[0]}">عرض</span></a>`).join(''):empty('لا توجد تنبيهات 👍')}
+
+/* ---------- تقارير ---------- */
+function monthly(){const r=[],d=new Date();for(let k=5;k>=0;k--){const x=new Date(d.getFullYear(),d.getMonth()-k,1);const key=x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0');r.push([MN[x.getMonth()],S.payments.filter(p=>String(p.date).startsWith(key)).reduce((a,p)=>a+(+p.amount||0),0)])}return r}
+function bars(data){const max=Math.max(...data.map(x=>x[1]),0);return `<div class="bars">${data.map(([l,v])=>`<div class="bar"><small>${num(Math.round(v))}</small><div style="height:${max?v/max*85:0}%"></div><span>${esc(l)}</span></div>`).join('')}</div>`}
+function ovl(s,e,f,t){const a=s>f?s:f,b=e<t?e:t;return Math.max(0,dif(a,b))}
+function csv(name,head,rows){const q=x=>`"${String(x??'').replace(/"/g,'""')}"`;dl(name+'-'+today()+'.csv','﻿'+[head,...rows].map(r=>r.map(q).join(';')).join('\n'),'text/csv')}
+function dl(n,t,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type}));a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+function exp(k){
+ if(k==='bk')csv('bookings',['رقم','العميل','السيارة','من','إلى','الأيام','المبلغ','الحالة','المصدر'],S.bookings.map(b=>[b.no,cuName(b.customerId),carName(b.carId),b.start,b.end,b.days,b.total,BST[b.status][0],b.source==='online'?'أونلاين':'المكتب']));
+ if(k==='inv')csv('invoices',['رقم','التاريخ','العميل','الإجمالي','المدفوع','المتبقي','الحالة'],S.invoices.map(i=>[i.no,i.date,cuName(i.customerId),tot(i).toFixed(2),paid(i).toFixed(2),due(i).toFixed(2),IST[ist(i)][0]]));
+ if(k==='pay')csv('payments',['التاريخ','الفاتورة','المبلغ','الطريقة','المرجع'],S.payments.map(p=>[p.date,(S.invoices.find(i=>i.id===p.invoiceId)||{}).no,p.amount,p.method,p.ref]));
+ if(k==='cu')csv('customers',['الاسم','الهاتف','البريد','العنوان','الرخصة'],S.customers.map(c=>[c.name,c.phone,c.email,c.address,c.license]))}
+
+/* ---------- الصفحات ---------- */
+const PAGES={
+dash(){const cnt=k=>S.cars.filter(c=>c.status===k).length,m=today().slice(0,7);
+ const rev=S.payments.filter(p=>String(p.date).startsWith(m)).reduce((a,p)=>a+(+p.amount||0),0),open=S.invoices.reduce((a,i)=>a+due(i),0);
+ const kp=[['🚗','سيارات متاحة',cnt('available')],['🔑','مؤجرة الآن',cnt('rented')],['🔧','في الصيانة',cnt('maint')],['📅','حجوزات جديدة',S.bookings.filter(b=>b.status==='new').length],['💶','إيراد هذا الشهر',money(rev)],['🧾','مبالغ غير مدفوعة',money(open)]];
+ return `<div class="kpis">${kp.map(k=>`<div class="kpi"><i>${k[0]}</i><span>${k[1]}</span><b>${k[2]}</b></div>`).join('')}</div>
+ <div class="grid2"><div class="card"><h3>الإيرادات المحصّلة (آخر 6 أشهر)</h3>${bars(monthly())}</div><div class="card"><h3>تنبيهات مهمة</h3>${notifList(notifs().slice(0,6))}</div></div>
+ ${can('bookings')?`<div class="card"><div class="row"><h3>آخر الحجوزات</h3><a href="#bookings" class="sm">عرض الكل</a></div>${bookTable(S.bookings.slice().sort((a,b)=>b.created.localeCompare(a.created)).slice(0,6),true)}</div>`:''}`},
+fleet(){return `<div class="bar-top"><input placeholder="بحث بالاسم أو اللوحة..." oninput="filt(this,'.car')"><button class="btn" onclick="carForm()">+ إضافة سيارة</button></div><div class="cars">${S.cars.map(c=>carCard(c,true)).join('')||empty('أضف أول سيارة في الأسطول')}</div>`},
+status(){return `<div class="bar-top"><span class="mut sm">غيّر حالة السيارة مباشرة من القائمة</span><button class="btn" onclick="maintForm()">+ تسجيل صيانة</button></div>
+ ${tbl(['السيارة','اللوحة','الحالة','العداد','الصيانة القادمة','TÜV','التأمين','تنبيه'],S.cars.map(c=>[c.name,c.plate,{h:`<select onchange="setCarSt('${c.id}',this.value)" style="min-width:120px">${Object.entries(CST).map(([k,v])=>`<option value="${k}" ${c.status===k?'selected':''}>${v[0]}</option>`).join('')}</select>`},num(c.km),c.nextServiceKm?num(c.nextServiceKm):'—',fd(c.tuv),fd(c.insExp),{h:carWarn(c).map(w=>`<span class="bdg r">${w}</span>`).join(' ')||'<span class="bdg g">سليمة</span>'}]))}
+ <div class="card"><h3>سجل الصيانة</h3>${tbl(['التاريخ','السيارة','النوع','العداد','التكلفة','ملاحظات'],S.maint.slice().reverse().map(x=>[fd(x.date),carName(x.carId),x.type,num(x.km),money(x.cost),x.notes||'']))}</div>`},
+customers(){return `<div class="bar-top"><input placeholder="بحث بالاسم أو الهاتف..." oninput="filt(this,'tr[data-s]')"><button class="btn" onclick="cuForm()">+ عميل جديد</button></div>
+ ${S.customers.length?`<div class="tw"><table><tr><th>الاسم</th><th>الهاتف</th><th>الرخصة</th><th>الحجوزات</th><th>المستحق</th><th></th></tr>${S.customers.map(c=>{const n=S.bookings.filter(b=>b.customerId===c.id).length,d=S.invoices.filter(i=>i.customerId===c.id).reduce((a,i)=>a+due(i),0);return `<tr data-s="${esc(c.name+' '+c.phone)}"><td><b>${esc(c.name)}</b>${c.email?`<br><small class="mut">${esc(c.email)}</small>`:''}</td><td><a href="${wa(c.phone)}" target="_blank">${esc(c.phone)}</a></td><td>${esc(c.license||'—')} ${c.licenseExp&&c.licenseExp<today()?'<span class="bdg r">منتهية</span>':''}</td><td>${n}</td><td>${d?`<span class="bdg r">${money(d)}</span>`:'—'}</td><td class="nw"><button class="btn sm" onclick="cuForm('${c.id}')">تعديل</button> <button class="btn sm ghost" onclick="delCu('${c.id}')">حذف</button></td></tr>`}).join('')}</table></div>`:empty()}
+ <p class="mut sm">حماية البيانات (DSGVO): احفظ فقط البيانات اللازمة لعقد التأجير، وتحقق من الهوية والرخصة الأصلية عند التسليم.</p>`},
+bookings(){const f=sub()||'all',list=S.bookings.filter(b=>f==='all'||b.status===f).sort((a,b)=>b.created.localeCompare(a.created));
+ return `<div class="bar-top"><div class="tabs">${[['all','الكل'],...Object.entries(BST).map(([k,v])=>[k,v[0]])].map(([k,l])=>`<a href="#bookings-${k}" class="${f===k?'on':''}">${l} <small>(${k==='all'?S.bookings.length:S.bookings.filter(b=>b.status===k).length})</small></a>`).join('')}</div><button class="btn" onclick="bkForm()">+ حجز جديد</button></div>${bookTable(list)}`},
+handover(){const out=S.bookings.filter(b=>b.status==='confirmed').sort((a,b)=>a.start.localeCompare(b.start)),inn=S.bookings.filter(b=>b.status==='active').sort((a,b)=>a.end.localeCompare(b.end));
+ const row=(b,t)=>`<div class="li"><div><b>${b.no} · ${esc(carName(b.carId))}</b><small class="mut">${esc(cuName(b.customerId))} · ${fd(b.start)} ← ${fd(b.end)} ${t==='in'&&b.end<today()?'<span class="bdg r">متأخر</span>':''}</small></div><button class="btn sm" onclick="hoForm('${b.id}','${t}')">${t==='out'?'تسليم للعميل':'استلام من العميل'}</button></div>`;
+ return `<div class="grid2"><div class="card"><h3>🔑 جاهزة للتسليم (${out.length})</h3>${out.map(b=>row(b,'out')).join('')||empty('لا توجد حجوزات مؤكدة بانتظار التسليم')}</div><div class="card"><h3>↩️ بانتظار الإرجاع (${inn.length})</h3>${inn.map(b=>row(b,'in')).join('')||empty('لا توجد سيارات مؤجرة حالياً')}</div></div>
+ <div class="card"><h3>سجل التسليم والاستلام</h3>${tbl(['التاريخ','الحجز','النوع','العداد','الوقود','الأضرار','الموظف',''],S.handovers.slice().reverse().map(x=>[fdt(x.date),bkNo(x.bookingId),{h:x.type==='out'?'<span class="bdg o">تسليم</span>':'<span class="bdg g">استلام</span>'},num(x.km),x.fuel+'/8',x.damages||'لا يوجد',x.staff,{h:`<button class="btn sm ghost" onclick="hoView('${x.id}')">عرض</button>`}]))}</div>`},
+invoices(){const id=sub();if(id){const i=S.invoices.find(x=>x.id===id);if(i)return invView(i)}
+ return `<div class="bar-top"><input placeholder="بحث برقم الفاتورة أو العميل..." oninput="filt(this,'tr[data-s]')"><button class="btn" onclick="manInv()">+ فاتورة يدوية</button></div>
+ ${S.invoices.length?`<div class="tw"><table><tr><th>رقم الفاتورة</th><th>التاريخ</th><th>العميل</th><th>الإجمالي</th><th>المدفوع</th><th>الحالة</th><th></th></tr>${S.invoices.slice().reverse().map(i=>`<tr data-s="${esc(i.no+' '+cuName(i.customerId))}"><td>${i.no}</td><td>${fd(i.date)}</td><td>${esc(cuName(i.customerId))}</td><td>${money(tot(i))}</td><td>${money(paid(i))}</td><td>${badge(IST,ist(i))}</td><td><a class="btn sm" href="#invoices-${i.id}">فتح</a></td></tr>`).join('')}</table></div>`:empty('الفواتير تُنشأ تلقائياً عند استلام السيارة، أو من زر «فاتورة» في الحجوزات')}`},
+accidents(){return `<div class="bar-top"><span class="mut sm">يمكن للعملاء إرسال البلاغات من صفحة العملاء أيضاً</span><button class="btn" onclick="acForm()">+ بلاغ جديد</button></div>
+ ${tbl(['التاريخ','السيارة','المُبلِّغ','المكان','الحالة','التكلفة',''],S.accidents.slice().reverse().map(a=>[fd(a.date),carName(a.carId)||a.plate||'—',a.reporter||'—',a.location||'—',{h:badge(ACST,a.status)+(a.source==='online'?' <span class="bdg b">أونلاين</span>':'')},a.cost?money(a.cost):'—',{h:`<button class="btn sm" onclick="acView('${a.id}')">عرض</button>`}]))}`},
+notify(){return `<div class="card">${notifList(notifs())}</div><div class="card"><h3>الرسائل</h3><p class="mut sm">طلبات الحجز وبلاغات الحوادث من صفحة العملاء تُرسل لفريق التشغيل عبر واتساب على الرقم <b dir="ltr">${esc(S.settings.opsWa)}</b> (يُغيَّر من الإعدادات). ومن قائمة الحجوزات والفواتير يمكن إرسال رسالة جاهزة للعميل بزر «واتساب».</p></div>`},
+reports(){const from=addD(today(),-30);
+ const rows=S.cars.map(c=>{const r=S.invoices.filter(i=>{const b=S.bookings.find(x=>x.id===i.bookingId);return b&&b.carId===c.id}).reduce((a,i)=>a+tot(i),0);const cost=S.maint.filter(x=>x.carId===c.id).reduce((a,x)=>a+(+x.cost||0),0)+S.accidents.filter(x=>x.carId===c.id).reduce((a,x)=>a+(+x.cost||0),0);const ud=S.bookings.filter(b=>b.carId===c.id&&['active','done'].includes(b.status)).reduce((a,b)=>a+ovl(b.start,b.end,from,today()),0);return {c,r,cost,u:Math.min(100,Math.round(ud/30*100)),n:S.bookings.filter(b=>b.carId===c.id&&b.status!=='cancelled').length}});
+ const R=rows.reduce((a,x)=>a+x.r,0)+S.invoices.filter(i=>!i.bookingId).reduce((a,i)=>a+tot(i),0),C=rows.reduce((a,x)=>a+x.cost,0),P=S.payments.reduce((a,p)=>a+(+p.amount||0),0),D=S.invoices.reduce((a,i)=>a+due(i),0);
+ const kp=[['🧾','إجمالي الفواتير',money(R)],['💶','المحصّل',money(P)],['🔧','الصيانة والحوادث',money(C)],['📈','الصافي التقريبي',money(R-C)],['⏳','غير محصّل',money(D)]];
+ return `<div class="kpis">${kp.map(k=>`<div class="kpi"><i>${k[0]}</i><span>${k[1]}</span><b>${k[2]}</b></div>`).join('')}</div>
+ <div class="grid2"><div class="card"><h3>الإيرادات المحصّلة شهرياً</h3>${bars(monthly())}</div><div class="card"><h3>الحجوزات حسب الحالة</h3>${bars(Object.entries(BST).map(([k,v])=>[v[0],S.bookings.filter(b=>b.status===k).length]))}</div></div>
+ <div class="card"><h3>أداء كل سيارة</h3>${tbl(['السيارة','الحجوزات','الإيراد','المصاريف','الصافي','الإشغال (30 يوم)'],rows.map(x=>[x.c.name+' · '+x.c.plate,x.n,money(x.r),money(x.cost),money(x.r-x.cost),{h:`<b>${x.u}%</b>`}]))}</div>
+ <div class="card"><h3>تصدير إلى Excel (CSV)</h3><div class="acts"><button class="btn ghost" onclick="exp('bk')">الحجوزات</button><button class="btn ghost" onclick="exp('inv')">الفواتير</button><button class="btn ghost" onclick="exp('pay')">المدفوعات</button><button class="btn ghost" onclick="exp('cu')">العملاء</button></div><p class="mut sm">يمكن إرسال ملفات الفواتير والمدفوعات للمستشار الضريبي.</p></div>`},
+users(){return `<div class="bar-top"><span class="mut sm">${SB?'أنشئ حساب الموظف أولاً في Supabase ← Authentication ← Users، ثم أضف بريده هنا وحدّد صلاحياته':'كل مستخدم يرى فقط الأقسام المسموحة له'}</span><button class="btn" onclick="userForm()">+ مستخدم جديد</button></div>
+ ${tbl(['الاسم','اسم الدخول','الدور','الصلاحيات','الحالة',''],S.users.map(u=>[u.name,u.user,ROLES[u.role],u.role==='admin'?'كل الأقسام':(u.perms||[]).map(p=>(MODS.find(m=>m[0]===p)||['',''])[1]).join('، '),{h:u.active===false?'<span class="bdg x">موقوف</span>':'<span class="bdg g">فعّال</span>'},{h:`<span class="nw"><button class="btn sm" onclick="userForm('${u.id}')">تعديل</button> ${u.id!==ME.id?`<button class="btn sm ghost" onclick="delUser('${u.id}')">حذف</button>`:''}</span>`}]))}`},
+settings(){const s=S.settings;return `<div class="card"><div class="row"><h3>بيانات الشركة والتشغيل</h3><button class="btn sm" onclick="setForm()">تعديل الإعدادات</button></div><div class="kv">${[['اسم الشركة',s.name],['العنوان',s.address],['الهاتف',s.phone],['واتساب فريق التشغيل',s.opsWa],['العملة',s.currency],['الضريبة',s.vat+'%'],['كم مجاني لكل يوم',+s.kmPerDay?num(s.kmPerDay):'غير محدود'],['سعر الكم الإضافي',money(s.extraKm)],['رسوم 1/8 وقود',money(s.fuelFee)],['رابط الدفع الإلكتروني',s.payLink||'غير مضبوط']].map(([a,b])=>`<div><span class="mut sm">${a}</span><b>${esc(b)}</b></div>`).join('')}</div></div>
+ ${cloudCard()}<div class="card"><h3>النسخ الاحتياطي والبيانات</h3><p class="mut sm">${SB?'البيانات محفوظة في قاعدة البيانات السحابية. النسخة الاحتياطية مفيدة للأرشفة.':'البيانات محفوظة في هذا المتصفح على هذا الجهاز. خذ نسخة احتياطية بانتظام.'}</p><div class="acts"><button class="btn" onclick="backup()">⬇️ تنزيل نسخة احتياطية</button><label class="btn ghost">⬆️ استعادة نسخة<input type="file" accept=".json,application/json" hidden onchange="restore(this)"></label>${SB?'':'<button class="btn ghost" onclick="fresh()">🆕 بدء نظام جديد فارغ (لعميل جديد)</button><button class="btn ghost" onclick="demo()">↺ إعادة البيانات التجريبية</button>'}</div></div>
+ <div class="card"><h3>⚖️ تنبيهات قانونية مهمة (ألمانيا)</h3><ul class="sm"><li>صفحة الحجز العامة تحتاج <b>Impressum</b> و<b>Datenschutzerklärung</b> — أضفهما من الإعدادات.</li><li>الفواتير لا تُحذف ولا تُعدّل بعد إصدارها (GoBD)؛ الإلغاء يكون بفاتورة ستورنو، وهذا مطبّق في النظام.</li><li>احفظ الفواتير طوال مدة الحفظ القانونية، واسأل مستشارك الضريبي عن المدة المطلوبة لكل نوع مستند.</li><li>نسبة 0% فقط إذا كنت Kleinunternehmer حسب §19 UStG.</li><li>الدفع الإلكتروني يتم عبر مزوّد مرخّص (PayPal / Stripe)؛ النظام لا يخزّن أي بيانات بطاقات.</li><li>تحقق من رخصة القيادة الأصلية وسن السائق قبل كل تسليم، ووضّح شروط التأمين في العقد.</li></ul></div>`}
+};
+function carCard(c,adm){return `<div class="car" data-s="${esc(c.name+' '+c.plate+' '+(c.category||''))}"><img src="${c.img||carSvg('#9aa3b5')}" alt="${esc(c.name)}"><div class="cb"><div class="row"><b>${esc(c.name)} ${esc(c.year||'')}</b>${adm?badge(CST,c.status):''}</div><small class="mut">${[c.category,c.gear,c.seats?c.seats+' مقاعد':'',c.fuelType].filter(Boolean).map(esc).join(' · ')}</small><div class="price">${money(c.price)} <small>/ يوم</small></div>${adm?`<small class="mut">${esc(c.plate)} · ${num(c.km)} كم</small><div class="acts"><button class="btn sm" onclick="carForm('${c.id}')">تعديل</button><button class="btn sm ghost" onclick="delCar('${c.id}')">حذف</button></div>`:`${c.deposit?`<small class="mut">تأمين مسترد: ${money(c.deposit)}</small>`:''}<button class="btn wide" onclick="pubBook('${c.id}')">احجز الآن</button>`}</div></div>`}
+function bookTable(list,short){if(!list.length)return empty();return `<div class="tw"><table><tr><th>رقم</th><th>العميل</th><th>السيارة</th><th>من</th><th>إلى</th><th>المبلغ</th><th>الحالة</th>${short?'':'<th>إجراءات</th>'}</tr>${list.map(b=>`<tr><td class="nw">${b.no}${b.source==='online'?' <span class="bdg b">أونلاين</span>':''}</td><td>${esc(cuName(b.customerId))}</td><td>${esc(carName(b.carId))}</td><td class="nw">${fd(b.start)}</td><td class="nw">${fd(b.end)}</td><td class="nw">${money(b.total)}</td><td>${badge(BST,b.status)}</td>${short?'':`<td class="nw">${bkActs(b)}</td>`}</tr>`).join('')}</table></div>`}
+function bkActs(b){const a=[],c=S.customers.find(x=>x.id===b.customerId);
+ if(b.status==='new')a.push(`<button class="btn sm" onclick="bkSet('${b.id}','confirmed')">تأكيد</button>`);
+ if(b.status==='confirmed'&&can('handover'))a.push(`<button class="btn sm" onclick="hoForm('${b.id}','out')">تسليم</button>`);
+ if(b.status==='active'&&can('handover'))a.push(`<button class="btn sm" onclick="hoForm('${b.id}','in')">استلام</button>`);
+ if(['new','confirmed'].includes(b.status))a.push(`<button class="btn sm ghost" onclick="bkForm('${b.id}')">تعديل</button>`,`<button class="btn sm ghost" onclick="bkSet('${b.id}','cancelled')">إلغاء</button>`);
+ if(c)a.push(`<a class="btn sm ghost" target="_blank" href="${wa(c.phone,custMsg(b))}">واتساب</a>`);
+ if(can('invoices')&&b.status!=='cancelled'&&!hasInv(b.id))a.push(`<button class="btn sm ghost" onclick="mkInvoice('${b.id}')">فاتورة</button>`);
+ return a.join(' ')}
+function invView(i){const s=S.settings,c=S.customers.find(x=>x.id===i.customerId)||{},g=tot(i),net=g/(1+i.vat/100),d=due(i);
+ return `<div class="bar-top"><a class="btn ghost sm" href="#invoices">→ الفواتير</a><div class="acts">${d>0?`<button class="btn sm" onclick="payForm('${i.id}')">+ تسجيل دفعة</button>`:''}${d>0&&s.payLink?`<a class="btn sm" target="_blank" href="${esc(payUrl(d))}">💳 رابط الدفع</a>`:''}${d>0&&c.phone?`<a class="btn sm ghost" target="_blank" href="${wa(c.phone,`مرحباً ${c.name}، فاتورتكم رقم ${i.no} بمبلغ ${money(d)}.${s.payLink?' للدفع الإلكتروني: '+payUrl(d):''}${s.iban?' أو تحويل إلى IBAN: '+s.iban:''} — ${s.name}`)}">إرسال للعميل</a>`:''}<button class="btn sm ghost" onclick="window.print()">🖨️ طباعة / PDF</button>${!i.storno&&!i.cancelled?`<button class="btn sm ghost" onclick="storno('${i.id}')">إلغاء (ستورنو)</button>`:''}</div></div>
+ <div class="card inv" id="print"><div class="ih"><div>${logoHtml()}<h2>${esc(s.name)}</h2><small>${esc(s.address)}<br>${esc(s.phone)} ${s.email?'· '+esc(s.email):''}${s.taxId?'<br>Steuernr./USt-IdNr.: '+esc(s.taxId):''}</small></div><div><h2>${i.storno?'فاتورة إلغاء · Stornorechnung':'فاتورة · Rechnung'}</h2><b>${i.no}</b><br>التاريخ: ${fd(i.date)}${i.storno?'<br>إلغاء للفاتورة: '+esc((S.invoices.find(x=>x.id===i.storno)||{}).no):''}${i.bookingId?'<br>الحجز: '+bkNo(i.bookingId):''}<br>${badge(IST,ist(i))}</div></div>
+ <div class="to"><small class="mut">إلى:</small><br><b>${esc(c.name)}</b><br>${esc(c.address||'')}${c.phone?'<br>'+esc(c.phone):''}</div>
+ <table><tr><th>البيان</th><th>الكمية</th><th>سعر الوحدة</th><th>المجموع</th></tr>${i.items.map(x=>`<tr><td>${esc(x.d)}</td><td>${x.q}</td><td>${money(x.p)}</td><td>${money(x.q*x.p)}</td></tr>`).join('')}</table>
+ <div class="tots">${i.vat>0?`<div><span>الصافي</span><b>${money(net)}</b></div><div><span>ضريبة القيمة المضافة ${i.vat}%</span><b>${money(g-net)}</b></div>`:''}<div class="g"><span>الإجمالي</span><b>${money(g)}</b></div>${i.storno?'':`<div><span>المدفوع</span><b>${money(paid(i))}</b></div><div><span>المتبقي</span><b>${money(d)}</b></div>`}</div>
+ ${+i.vat===0?'<p class="sm">Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</p>':''}${s.iban?`<p class="sm">IBAN: ${esc(s.iban)}</p>`:''}<p class="sm mut">${esc(s.terms||'')}</p></div>
+ <div class="card"><h3>المدفوعات</h3>${tbl(['التاريخ','المبلغ','الطريقة','المرجع'],S.payments.filter(p=>p.invoiceId===i.id).map(p=>[fd(p.date),money(p.amount),p.method,p.ref||'']))}</div>`}
+
+/* ---------- الإعدادات والبيانات ---------- */
+function setForm(){openForm('الإعدادات',[{k:'name',l:'اسم الشركة',req:1},{k:'slogan',l:'عبارة قصيرة تحت الاسم'},{k:'address',l:'العنوان',w:1},{k:'phone',l:'الهاتف'},{k:'email',l:'البريد',t:'email'},{k:'taxId',l:'Steuernummer / USt-IdNr'},{k:'iban',l:'IBAN'},{k:'opsWa',l:'واتساب فريق التشغيل (مثال 4915112345678)',req:1},{k:'cc',l:'رمز الدولة الافتراضي للهاتف',ph:'49'},{k:'currency',l:'العملة',t:'select',o:['€','$','ر.س','د.إ','د.ك','ر.ع','ل.س']},{k:'vat',l:'ضريبة القيمة المضافة',t:'select',o:[['19','19% (ألمانيا)'],['7','7%'],['0','0% — Kleinunternehmer §19 UStG'],['5','5% (الإمارات / عُمان)'],['15','15% (السعودية)']]},{k:'kmPerDay',l:'كم مجاني لكل يوم (0 = غير محدود)',t:'number'},{k:'extraKm',l:'سعر الكيلومتر الإضافي',t:'number'},{k:'fuelFee',l:'رسوم كل 1/8 خزان ناقص',t:'number'},{k:'payLink',l:'رابط الدفع الإلكتروني (PayPal.me أو Stripe Payment Link)',w:1,ph:'https://paypal.me/اسمك'},{k:'terms',l:'شروط التأجير (تظهر على الفاتورة وصفحة الحجز)',t:'textarea',w:1},{k:'impressum',l:'Impressum و Datenschutz (يظهر في صفحة العملاء)',t:'textarea',w:1},{k:'logo',l:'شعار الشركة',t:'image',w:1}],S.settings,v=>{Object.assign(S.settings,v)})}
+function backup(){dl(`sonne-rent-backup-${today()}.json`,JSON.stringify(S),'application/json');toast('تم تنزيل النسخة الاحتياطية')}
+function restore(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.cars||!d.users||!d.settings)throw 0;ask('استبدال كل البيانات الحالية بالنسخة الاحتياطية؟',()=>{if(SB){const users=S.users;S={...d,users};save();render()}else{S=d;save();logout()}})}catch(e){toast('ملف غير صالح')}};r.readAsText(f)}
+function fresh(){openForm('بدء نظام جديد فارغ',[{k:'name',l:'اسم شركة التأجير',req:1},{k:'user',l:'اسم دخول المدير',req:1},{k:'pass',l:'كلمة مرور المدير (6 أحرف على الأقل)',t:'password',req:1},{k:'ok',t:'check',cl:'أفهم أن كل البيانات الحالية ستُحذف',req:1,w:1}],{user:'admin'},async v=>{if(v.pass.length<6){toast('كلمة المرور قصيرة');return false}const st={...S.settings,name:v.name,logo:'',demo:false,impressum:''};const u={id:uid(),name:'المدير',user:v.user,pass:await h(v.pass),role:'admin',perms:PRESETS.admin,active:true};S={v:1,settings:st,users:[u],cars:[],customers:[],bookings:[],handovers:[],invoices:[],payments:[],accidents:[],maint:[],cnt:{bk:0,inv:0}};ME=u;try{sessionStorage.setItem(K+'_me',u.id)}catch(e){}setTimeout(()=>go('fleet'),0)})}
+function demo(){ask('إعادة البيانات التجريبية؟ سيتم حذف كل البيانات الحالية.',async()=>{S=await seed();save();logout()})}
+function logout(){if(SB){SB.auth.signOut();clearInterval(TIMER);S={...blank(S.settings),cars:S.cars};SNAP={};LAST=null}ME=null;try{sessionStorage.removeItem(K+'_me')}catch(e){}go('login')}
+async function doLogin(e){e.preventDefault();const f=new FormData(e.target);if(SB){await cloudLogin(String(f.get('u')).trim(),f.get('p'));return false}const u=S.users.find(x=>x.user===String(f.get('u')).trim()&&x.active!==false);if(u&&u.pass===await h(f.get('p'))){ME=u;try{sessionStorage.setItem(K+'_me',u.id)}catch(_){}go('dash')}else toast('بيانات الدخول غير صحيحة');return false}
+
+/* ---------- صفحة العملاء العامة ---------- */
+function pubBook(carId){const car=S.cars.find(c=>c.id===carId);
+ openForm('حجز '+esc(car.name),[{k:'name',l:'الاسم',req:1},{k:'phone',l:'رقم الهاتف / واتساب',t:'tel',req:1},{k:'start',l:'من تاريخ',t:'date',req:1},{k:'end',l:'إلى تاريخ',t:'date',req:1},{k:'ok',t:'check',cl:'أوافق على شروط التأجير وعلى استخدام بياناتي لمعالجة الحجز',req:1,w:1}],{carId,start:addD(today(),1),end:addD(today(),3)},v=>{
+  if(v.start<today()){toast('لا يمكن الحجز بتاريخ سابق');return false}
+  if(SB&&!ME)return cloudBook(car,v);
+  const cid=upsertCustomer(v.name,v.phone);const b=makeBooking({customerId:cid,carId,start:v.start,end:v.end,source:'online'});if(typeof b==='string'){toast(b);return false}
+  setTimeout(()=>doneBook({no:b.no,car,start:b.start,end:b.end,days:b.days,total:b.total,deposit:b.deposit,name:v.name,phone:v.phone}),50)},
+  `<div class="calc" id="calc"></div>${S.settings.terms?`<p class="sm mut" style="grid-column:1/-1;margin:0">${esc(S.settings.terms)}</p>`:''}`);
+ FORM.live=liveCalc;liveCalc($('#frm'))}
+function pubReport(){openForm('بلاغ حادث / عطل',[{k:'reporter',l:'الاسم',req:1},{k:'phone',l:'الهاتف',t:'tel',req:1},{k:'plate',l:'رقم لوحة السيارة',req:1},{k:'location',l:'المكان',req:1},{k:'desc',l:'ماذا حدث؟',t:'textarea',req:1,w:1},{k:'photos',l:'صور (اختياري)',t:'image',multi:1,w:1}],{},async v=>{if(SB&&!ME){const{error}=await SB.from('rent_records').insert({coll:'requests',deleted:false,id:'rq'+uid(),data:{kind:'accident',date:today(),reporter:v.reporter,phone:v.phone,plate:v.plate,location:v.location,desc:v.desc,photos:(v.photos||[]).slice(0,3)}});if(error){toast('تعذّر إرسال البلاغ، حاول مرة أخرى');return false}}else{const c=S.cars.find(x=>norm(x.plate)===norm(v.plate)),act=S.bookings.find(b=>c&&b.carId===c.id&&b.status==='active');S.accidents.push({id:uid(),date:today(),created:new Date().toISOString(),source:'online',status:'new',carId:c?c.id:'',bookingId:act?act.id:'',...v})}
+ setTimeout(()=>showModal(`<h3>✅ تم استلام البلاغ</h3><p>أرسله الآن لفريق التشغيل ليتواصل معك فوراً:</p><a class="btn wide" target="_blank" href="${wa(S.settings.opsWa,`⚠️ بلاغ حادث\nالاسم: ${v.reporter}\nالهاتف: ${v.phone}\nاللوحة: ${v.plate}\nالمكان: ${v.location}\n${v.desc}`)}">📲 إرسال عبر واتساب</a><button class="btn ghost wide" onclick="closeModal()">إغلاق</button>`),50)})}
+function showImp(){showModal(`<h3>Impressum & Datenschutz</h3><p style="white-space:pre-wrap">${esc(S.settings.impressum||'لم تُضف بعد.')}</p><button class="btn" onclick="closeModal()">إغلاق</button>`)}
+function renderPublic(p){const s=S.settings;
+ app.innerHTML=`<div class="pub"><header class="ph"><div class="brand">${logoHtml()}<div><b style="color:#fff">${esc(s.name)}</b><small>${esc(s.slogan||'')}</small></div></div><nav><a href="#book" class="${p==='book'?'on':''}">السيارات</a><a href="#report" class="${p==='report'?'on':''}">بلاغ حادث</a><a href="#login">دخول الموظفين</a></nav></header>
+ ${p==='book'?`<section class="hero"><h1>استأجر سيارتك بخطوة واحدة</h1><p>اختر السيارة، حدّد التاريخ، ونؤكد لك الحجز فوراً عبر واتساب.</p></section><div class="cars pubc">${S.cars.filter(c=>['available','reserved','rented'].includes(c.status)).map(c=>carCard(c,false)).join('')||empty('لا توجد سيارات متاحة حالياً')}</div>`
+ :`<div class="card narrow"><h3>⚠️ الإبلاغ عن حادث أو عطل</h3><p class="mut">إذا كانت هناك إصابات اتصل فوراً بالرقم <b>112</b>، وبالشرطة <b>110</b>. لا تغادر مكان الحادث، ثم أرسل البلاغ هنا.</p><button class="btn wide" onclick="pubReport()">فتح نموذج البلاغ</button></div>`}
+ <footer class="pf">${esc(s.address)} ${s.phone?'· '+esc(s.phone):''} · <a href="${wa(s.opsWa)}" target="_blank">واتساب</a> · <a onclick="showImp()">Impressum & Datenschutz</a></footer></div>`}
+
+/* ---------- العرض ---------- */
+function renderLogin(){app.innerHTML=`<div class="login"><form class="card" onsubmit="return doLogin(event)">${logoHtml()}<h2>${esc(S.settings.name)}</h2><p class="mut" style="margin:0">دخول الموظفين</p><label class="fld full"><span>${SB?'البريد الإلكتروني':'اسم الدخول'}</span><input name="u" ${SB?'type="email"':''} required autocomplete="username"></label><label class="fld full"><span>كلمة المرور</span><input name="p" type="password" required autocomplete="current-password"></label><button class="btn wide">دخول</button>${S.settings.demo&&!SB?'<p class="mut sm" style="margin:0">تجريبي: admin / admin123 — ops / ops123 — acc / acc123</p>':''}<a href="#book" class="sm">صفحة الحجز للعملاء ←</a></form></div>`}
+function render(){closeModal();const r=(location.hash.slice(1).replace(/^\//,'')||'book').split(/[-/]/);let p=r[0];
+ if(p==='book'||p==='report')return renderPublic(p);
+ if(p==='login'){if(ME)return go('dash');return renderLogin()}
+ if(!ME)return renderLogin();
+ if(!PAGES[p]||!can(p)){const f=MODS.find(m=>can(m[0]));if(!f)return logout();p=f[0]}
+ const n=notifs().length,mod=MODS.find(m=>m[0]===p);
+ app.innerHTML=`<div class="shell"><aside id="side"><div class="brand">${logoHtml()}<b>${esc(S.settings.name)}</b></div><nav>${MODS.filter(m=>can(m[0])).map(m=>`<a href="#${m[0]}" class="${m[0]===p?'on':''}" onclick="closeSide()"><i>${m[2]}</i>${m[1]}${m[0]==='notify'&&n?`<em>${n}</em>`:''}</a>`).join('')}</nav><div class="me">${esc(ME.name)}<small>${ROLES[ME.role]}</small><button class="btn ghost sm" onclick="logout()">تسجيل الخروج</button></div></aside><div class="ov" onclick="closeSide()"></div>
+ <main><header class="top"><button class="menu" onclick="openSide()" aria-label="القائمة">☰</button><h1>${mod[2]} ${mod[1]}</h1>${syncBadge()}${can('notify')?`<a class="bell" href="#notify">🔔${n?`<em>${n}</em>`:''}</a>`:''}<a class="btn ghost sm" href="#book" target="_blank">صفحة العملاء</a></header><section id="pg">${PAGES[p]()}</section></main></div>`;window.scrollTo(0,0)}
+window.addEventListener('hashchange',render);
+
+/* ---------- بيانات تجريبية ---------- */
+async function seed(){const d=n=>addD(today(),n);
+ S={v:1,cnt:{bk:0,inv:0},settings:{...DEFSET(),demo:true},
+ users:[{id:'u1',name:'مدير النظام',user:'admin',pass:await h('admin123'),role:'admin',perms:PRESETS.admin,active:true},{id:'u2',name:'فريق التشغيل',user:'ops',pass:await h('ops123'),role:'ops',perms:PRESETS.ops,active:true},{id:'u3',name:'المحاسب',user:'acc',pass:await h('acc123'),role:'acc',perms:PRESETS.acc,active:true}],
+ cars:[
+  {id:'c1',name:'تويوتا كورولا',year:2023,plate:'B-SR 101',color:'أزرق',category:'اقتصادية',seats:5,gear:'أوتوماتيك',fuelType:'هايبرد',price:45,deposit:300,km:18200,status:'available',img:carSvg('#2f6fd6'),insExp:d(200),tuv:d(400),nextServiceKm:30000},
+  {id:'c2',name:'فولكس فاجن جولف',year:2022,plate:'B-SR 202',color:'رمادي',category:'متوسطة',seats:5,gear:'يدوي',fuelType:'بنزين',price:49,deposit:300,km:41000,status:'rented',img:carSvg('#6c7480'),insExp:d(20),tuv:d(300),nextServiceKm:40000},
+  {id:'c3',name:'مرسيدس C-Klasse',year:2024,plate:'B-SR 303',color:'أسود',category:'فاخرة',seats:5,gear:'أوتوماتيك',fuelType:'ديزل',price:89,deposit:600,km:9100,status:'reserved',img:carSvg('#1d2433'),insExp:d(250),tuv:d(700),nextServiceKm:20000},
+  {id:'c4',name:'هيونداي توسان',year:2023,plate:'B-SR 404',color:'أبيض',category:'SUV',seats:5,gear:'أوتوماتيك',fuelType:'بنزين',price:65,deposit:400,km:27500,status:'maint',img:carSvg('#c9ced8'),insExp:d(150),tuv:d(25),nextServiceKm:45000},
+  {id:'c5',name:'فورد ترانزيت',year:2021,plate:'B-SR 505',color:'أبيض',category:'فان / نقل',seats:3,gear:'يدوي',fuelType:'ديزل',price:79,deposit:500,km:88000,status:'available',img:carSvg('#e0e3ea'),insExp:d(300),tuv:d(500),nextServiceKm:100000}],
+ customers:[{id:'cu1',name:'أحمد خليل',phone:'01511234567',email:'ahmad@example.com',address:'Hauptstr. 1, 10115 Berlin',license:'B072XYZ',licenseExp:d(900),created:new Date().toISOString()},{id:'cu2',name:'سارة يوسف',phone:'01761112233',address:'Karl-Marx-Str. 5, 12043 Berlin',license:'B551ABC',licenseExp:d(1200),created:new Date().toISOString()},{id:'cu3',name:'محمد العلي',phone:'01629988776',address:'Frankfurter Allee 20, 10247 Berlin',license:'B998QWE',licenseExp:d(600),created:new Date().toISOString()}],
+ bookings:[],handovers:[],invoices:[],payments:[],accidents:[],maint:[]};
+ for(const[off,car,cu,days]of[[-150,'c1','cu1',4],[-118,'c3','cu2',3],[-95,'c5','cu3',2],[-80,'c2','cu1',6],[-52,'c5','cu2',3],[-40,'c3','cu3',4],[-24,'c3','cu1',5],[-12,'c1','cu2',3]]){const c=S.cars.find(x=>x.id===car),st=d(off),en=d(off+days);const b={id:uid(),no:'BK-'+String(++S.cnt.bk).padStart(4,'0'),status:'done',source:off%2?'online':'office',created:new Date(st+'T10:00:00').toISOString(),customerId:cu,carId:car,start:st,end:en,days,price:c.price,total:days*c.price,deposit:c.deposit,notes:''};S.bookings.push(b);const i=newInv(cu,b.id,[{d:`تأجير ${c.name} (${fd(st)} – ${fd(en)})`,q:days,p:c.price}]);i.date=en;S.payments.push({id:uid(),invoiceId:i.id,date:en,amount:days*c.price,method:off%3?'تحويل بنكي':'نقداً',ref:''})}
+ const b1=makeBooking({customerId:'cu1',carId:'c2',start:d(-2),end:d(3),source:'office'});b1.status='active';b1.created=new Date(Date.now()-3*864e5).toISOString();
+ S.handovers.push({id:uid(),bookingId:b1.id,type:'out',date:new Date(Date.now()-2*864e5).toISOString(),staff:'فريق التشغيل',km:40650,fuel:8,checks:['الإطارات سليمة','الأضواء تعمل','نظيفة من الداخل','أوراق السيارة'],damages:'خدش صغير على الباب الخلفي الأيمن',photos:[],sign:'أحمد خليل'});
+ const i1=mkInvoice(b1.id,true);S.payments.push({id:uid(),invoiceId:i1.id,date:d(-2),amount:100,method:'بطاقة (EC / Kredit)',ref:'دفعة مقدمة'});
+ const b2=makeBooking({customerId:'cu3',carId:'c3',start:today(),end:d(2),source:'office'});b2.status='confirmed';
+ makeBooking({customerId:'cu2',carId:'c1',start:d(1),end:d(4),source:'online'});
+ makeBooking({customerId:'cu3',carId:'c5',start:d(5),end:d(7),source:'online'});
+ S.maint.push({id:uid(),carId:'c4',date:d(-1),type:'إصلاح هيكل',km:27500,cost:420,notes:'إصلاح الصدام الأمامي'},{id:uid(),carId:'c1',date:d(-60),type:'زيت وفلاتر',km:15000,cost:180,notes:''});
+ S.accidents.push({id:uid(),date:d(-3),created:new Date().toISOString(),source:'online',status:'progress',carId:'c4',bookingId:'',reporter:'سارة يوسف',phone:'01761112233',location:'Berlin, A100',desc:'اصطدام خفيف من الخلف عند الإشارة، لا توجد إصابات.',police:'',third:'',photos:[],cost:420});
+ return S}
+
+/* ---------- الربط السحابي (Supabase) ---------- */
+const COLLS=['cars','customers','bookings','handovers','invoices','payments','accidents','maint','users'];
+let SB=null,SNAP={},LAST=null,PT=null,PUSHING=false,AGAIN=false,TIMER=null,SYNC=['ok',''];
+function DEFSET(){return {name:'Sonne Rent',slogan:'تأجير سيارات بسهولة',address:'Berlin, Germany',phone:'+49 30 0000000',email:'info@example.com',taxId:'',iban:'',opsWa:'4915100000000',cc:'49',currency:'€',vat:'19',kmPerDay:200,extraKm:0.25,fuelFee:12,payLink:'',terms:'الحد الأدنى لعمر السائق 21 سنة ورخصة قيادة سارية منذ سنة على الأقل. التأمين (الكفالة) يُسترد عند إرجاع السيارة بحالة سليمة.',impressum:'',logo:'',demo:false}}
+function blank(st){return {v:1,cnt:{bk:0,inv:0},settings:st||DEFSET(),users:[],cars:[],customers:[],bookings:[],handovers:[],invoices:[],payments:[],accidents:[],maint:[]}}
+function cloudCfg(){if(EMBED.url&&EMBED.key)return EMBED;try{return JSON.parse(localStorage.getItem(K+'_cloud'))||{}}catch(e){return {}}}
+function loadLib(){const src=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4','https://unpkg.com/@supabase/supabase-js@2.45.4'];
+ return new Promise((res,rej)=>{if(window.supabase&&window.supabase.createClient)return res();const tryN=n=>{if(n>=src.length)return rej(new Error('تعذّر تحميل مكتبة الربط — تحقق من الإنترنت'));const s=document.createElement('script');s.src=src[n];s.onload=()=>window.supabase&&window.supabase.createClient?res():tryN(n+1);s.onerror=()=>tryN(n+1);document.head.appendChild(s)};tryN(0)})}
+function syncBadge(){if(!SB)return '';const[m,c]={ok:['☁️ متزامن','g'],busy:['☁️ جارٍ الحفظ…','b'],err:['⚠️ غير متزامن — اضغط','r']}[SYNC[0]];return `<a id="sync" class="bdg ${c}" title="${esc(SYNC[1])}" onclick="pull()">${m}</a>`}
+function setSync(st,msg){SYNC=[st,msg||''];const e=$('#sync');if(e)e.outerHTML=syncBadge()}
+function queuePush(){setSync('busy');clearTimeout(PT);PT=setTimeout(push,700)}
+const modalOpen=()=>{const m=$('#mod');return !!m&&m.style.display==='flex'};
+function snapSet(c,id,v){(SNAP[c]=SNAP[c]||{})[id]=v}
+async function push(){clearTimeout(PT);PT=null;if(!SB||!ME)return;if(PUSHING){AGAIN=true;return}PUSHING=true;let renum=false;
+ try{
+  for(const b of S.bookings)if(b.tmpNo){const{data,error}=await SB.rpc('rent_next_no',{p_k:'bk'});if(error)throw error;b.no='BK-'+String(data).padStart(4,'0');delete b.tmpNo;renum=true}
+  for(const i of S.invoices)if(i.tmpNo){const y=String(i.date).slice(0,4);const{data,error}=await SB.rpc('rent_next_no',{p_k:'inv'+y});if(error)throw error;i.no=`RE-${y}-${String(data).padStart(4,'0')}`;delete i.tmpNo;renum=true}
+  const rows=[];
+  const add=(c,arr)=>{const seen=new Set();for(const r of arr){seen.add(r.id);const j=JSON.stringify(r);if(!SNAP[c]||SNAP[c][r.id]!==j)rows.push({coll:c,id:r.id,data:r,deleted:false,_j:j})}for(const id in SNAP[c]||{})if(!seen.has(id))rows.push({coll:c,id,data:{},deleted:true})};
+  COLLS.forEach(c=>add(c,S[c]));add('settings',[{...S.settings,id:'settings'}]);
+  for(let x=0;x<rows.length;x+=100){const part=rows.slice(x,x+100);const{error}=await SB.from('rent_records').upsert(part.map(({_j,...r})=>r));if(error)throw error;part.forEach(r=>{if(r.deleted){if(SNAP[r.coll])delete SNAP[r.coll][r.id]}else snapSet(r.coll,r.id,r._j)})}
+  setSync('ok')
+ }catch(e){setSync('err',e.message||String(e));toast('تعذّر الحفظ في السحابة: '+(e.message||e))}
+ PUSHING=false;if(AGAIN){AGAIN=false;return push()}if(renum&&!modalOpen())render()}
+async function pull(){if(!SB)return;if(ME&&(PT||PUSHING))await push();
+ const since=LAST;let max=LAST,changed=false,reqs=[];
+ for(let from=0;;from+=1000){let q=SB.from('rent_records').select('coll,id,data,deleted,updated_at').order('updated_at').range(from,from+999);if(since)q=q.gt('updated_at',since);
+  const{data,error}=await q;if(error){setSync('err',error.message);return}
+  for(const r of data){if(!max||r.updated_at>max)max=r.updated_at;
+   if(r.coll==='requests'){if(!r.deleted)reqs.push(r);continue}
+   if(r.coll==='settings'){if(!r.deleted){S.settings=r.data;snapSet('settings','settings',JSON.stringify(r.data));changed=true}continue}
+   if(!COLLS.includes(r.coll))continue;const arr=S[r.coll],ix=arr.findIndex(x=>x.id===r.id);
+   if(r.deleted){if(ix>=0)arr.splice(ix,1);if(SNAP[r.coll])delete SNAP[r.coll][r.id]}else{if(ix>=0)arr[ix]=r.data;else arr.push(r.data);snapSet(r.coll,r.id,JSON.stringify(r.data))}changed=true}
+  if(data.length<1000)break}
+ LAST=max;
+ if(ME){ME=S.users.find(u=>u.id===ME.id)||ME;if(reqs.length&&await takeReqs())changed=true}
+ if(SYNC[0]==='err'&&!PT)setSync('ok');
+ if(changed&&ME&&!modalOpen()&&document.activeElement.tagName!=='INPUT')render()}
+async function takeReqs(){if(!(can('bookings')||can('accidents')))return 0;const{data:rs}=await SB.from('rent_records').select('id,data').eq('coll','requests').eq('deleted',false);let n=0;
+ for(const r of rs||[]){const{data}=await SB.from('rent_records').update({deleted:true,data:{}}).eq('coll','requests').eq('id',r.id).eq('deleted',false).select('id');if(data&&data.length){takeReq(r.data);n++}}
+ if(n){save();toast(`وصل ${n} طلب جديد من صفحة العملاء`)}return n}
+function takeReq(d){
+ if(d.kind==='booking'){const cid=upsertCustomer(d.name,d.phone);const o={customerId:cid,carId:d.carId,start:d.start,end:d.end,source:'online',notes:'طلب أونلاين '+d.code};let b=makeBooking(o);if(typeof b==='string')makeBooking({...o,force:true,notes:'⚠️ تعارض مع حجز آخر — راجع قبل التأكيد. طلب '+d.code})}
+ else if(d.kind==='accident'){const c=S.cars.find(x=>norm(x.plate)===norm(d.plate)),act=c&&S.bookings.find(b=>b.carId===c.id&&b.status==='active');S.accidents.push({id:uid(),date:d.date||today(),created:new Date().toISOString(),source:'online',status:'new',carId:c?c.id:'',bookingId:act?act.id:'',reporter:d.reporter,phone:d.phone,plate:d.plate,location:d.location,desc:d.desc,photos:d.photos||[]})}}
+async function cloudLogin(email,pass){const{error}=await SB.auth.signInWithPassword({email,password:pass});if(error){toast('بيانات الدخول غير صحيحة');return}await afterAuth(email)}
+async function afterAuth(email){email=String(email).toLowerCase();const st=S.settings;S=blank(st);SNAP={};LAST=null;ME=null;await pull();
+ let u=S.users.find(x=>String(x.user).toLowerCase()===email&&x.active!==false);
+ if(!u&&!S.users.some(x=>String(x.user).includes('@'))){u={id:uid(),name:'المدير',user:email,role:'admin',perms:PRESETS.admin,active:true};S.users.push(u);ME=u;save()}
+ if(!u){toast('حسابك غير مضاف في النظام أو موقوف. اطلب من المدير إضافة بريدك.');await SB.auth.signOut();return renderLogin()}
+ ME=u;try{sessionStorage.setItem(K+'_me',u.id)}catch(e){}await takeReqs();clearInterval(TIMER);TIMER=setInterval(pull,20000);
+ const r=location.hash.slice(1).replace(/^\//,'');if(!r||/^(login|book|report)/.test(r))go(r.startsWith('book')||r.startsWith('report')?r:'dash');else render()}
+async function loadPublic(){const{data,error}=await SB.from('rent_records').select('coll,id,data').in('coll',['cars','settings']).eq('deleted',false);if(error)throw error;for(const r of data){if(r.coll==='settings')S.settings=r.data;else S.cars.push(r.data)}}
+async function cloudBook(car,v){const{data,error}=await SB.rpc('rent_busy',{car:car.id});if(error){toast('خطأ في الاتصال، حاول مرة أخرى');return false}
+ if((data||[]).some(x=>v.start<x.e&&v.end>x.s)){toast('السيارة محجوزة في هذه الفترة، اختر تاريخاً آخر');return false}
+ const code=uid().slice(-6).toUpperCase(),days=dd(v.start,v.end);
+ const{error:e2}=await SB.from('rent_records').insert({coll:'requests',deleted:false,id:'rq'+uid(),data:{kind:'booking',code,carId:car.id,name:v.name,phone:v.phone,start:v.start,end:v.end}});
+ if(e2){toast('تعذّر إرسال الطلب، حاول مرة أخرى');return false}
+ setTimeout(()=>doneBook({no:code,car,start:v.start,end:v.end,days,total:days*car.price,deposit:+car.deposit||0,name:v.name,phone:v.phone}),50)}
+function doneBook(b){const msg=`🚗 طلب حجز ${b.no}\nالعميل: ${b.name}\nالهاتف: ${b.phone}\nالسيارة: ${b.car.name} (${b.car.plate})\nمن ${fd(b.start)} إلى ${fd(b.end)} — ${b.days} يوم\nالمبلغ: ${money(b.total)}`;
+ showModal(`<h3>✅ تم استلام طلب الحجز</h3><p>رقم الطلب: <b>${esc(b.no)}</b><br>${esc(b.car.name)} · ${fd(b.start)} ← ${fd(b.end)}<br>المبلغ: <b>${money(b.total)}</b>${b.deposit?` + تأمين مسترد ${money(b.deposit)}`:''}</p><p class="sm">خطوة أخيرة: اضغط الزر لإرسال الطلب لفريقنا عبر واتساب ليتم تأكيده بسرعة.</p><a class="btn wide" target="_blank" href="${wa(S.settings.opsWa,msg)}">📲 إرسال الطلب عبر واتساب</a><button class="btn ghost wide" onclick="closeModal()">إغلاق</button>`)}
+function cloudCard(){const c=cloudCfg();return `<div class="card"><h3>☁️ الربط السحابي (عدة أجهزة وموظفين)</h3>${SB?`<p><span class="bdg g">متصل بقاعدة البيانات</span> <span class="mut sm" dir="ltr">${esc(c.url)}</span></p><div class="acts"><button class="btn ghost" onclick="migrate()">⬆️ نقل البيانات المحلية من هذا المتصفح إلى السحابة</button>${EMBED.url?'':'<button class="btn ghost" onclick="cloudOff()">فصل الربط</button>'}</div>`:`<p class="mut sm">الوضع الحالي: محلي (هذا المتصفح فقط). بعد إنشاء قاعدة بيانات Supabase وتشغيل ملف setup.sql، أدخل بياناتها هنا ليعمل النظام على كل الأجهزة.</p><button class="btn" onclick="cloudForm()">ربط بقاعدة البيانات</button>`}</div>`}
+function cloudForm(){openForm('ربط قاعدة بيانات Supabase',[{k:'url',l:'Project URL',req:1,w:1,ph:'https://xxxx.supabase.co'},{k:'key',l:'anon public key',req:1,w:1}],cloudCfg(),async v=>{
+ try{await loadLib();const t=window.supabase.createClient(v.url,v.key);const{error}=await t.from('rent_records').select('id').limit(1);if(error)throw error}catch(e){toast('فشل الاتصال: '+(e.message||e)+' — هل شغّلت ملف setup.sql؟');return false}
+ try{localStorage.setItem(K+'_cloud',JSON.stringify({url:v.url.trim(),key:v.key.trim()}))}catch(e){}toast('تم الربط. سجّل الدخول ببريد المدير.');setTimeout(()=>{location.hash='#login';location.reload()},800)})}
+function cloudOff(){ask('فصل الربط والعودة للوضع المحلي؟ البيانات في السحابة تبقى كما هي.',()=>{try{localStorage.removeItem(K+'_cloud')}catch(e){}if(SB)SB.auth.signOut();setTimeout(()=>location.reload(),300)})}
+function migrate(){let L=null;try{L=JSON.parse(localStorage.getItem(K))}catch(e){}if(!L||!L.cars)return toast('لا توجد بيانات محلية في هذا المتصفح');
+ ask(`نقل ${L.cars.length} سيارة و${L.bookings.length} حجز و${L.invoices.length} فاتورة إلى السحابة؟ ستُستبدل بيانات السحابة (عدا المستخدمين).`,async()=>{const users=S.users;S={...blank(L.settings),...L,users};S.settings={...L.settings,demo:false};
+  await SB.rpc('rent_set_no',{p_k:'bk',p_n:(L.cnt&&L.cnt.bk)||0});await SB.rpc('rent_set_no',{p_k:'inv'+new Date().getFullYear(),p_n:(L.cnt&&L.cnt.inv)||0});save();render();toast('جارٍ رفع البيانات…')})}
+function cloudFail(e){app.innerHTML=`<div class="login"><div class="card"><h2>تعذّر الاتصال بقاعدة البيانات</h2><p class="mut">${esc(e.message||e)}</p><button class="btn wide" onclick="location.reload()">إعادة المحاولة</button>${EMBED.url?'':'<button class="btn ghost wide" onclick="cloudOff()">العمل محلياً بدون سحابة</button>'}</div></div>`}
+window.addEventListener('focus',()=>{if(SB&&ME)pull()});
+
+/* ---------- تشغيل ---------- */
+(async()=>{const cfg=cloudCfg();
+ if(cfg.url&&cfg.key){try{await loadLib();SB=window.supabase.createClient(cfg.url,cfg.key);S=blank();await loadPublic();
+   const{data}=await SB.auth.getSession();if(data&&data.session)return afterAuth(data.session.user.email);return render()}catch(e){return cloudFail(e)}}
+ try{S=JSON.parse(localStorage.getItem(K))}catch(e){S=null}if(!S||!S.cars){S=await seed();save()}let id=null;try{id=sessionStorage.getItem(K+'_me')}catch(e){}ME=S.users.find(u=>u.id===id&&u.active!==false)||null;render()})();
+
+</script>
+</body>
+</html>
